@@ -1,0 +1,12 @@
+{
+  "resourceName": "Data",
+  "policyUUID": "bb6c12b8",
+  "bucketName": "pixelbucket",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE"
+  ],
+  "triggerFunction": "S3Triggerd29e7b80",
+  "groupAccess": {}
+}

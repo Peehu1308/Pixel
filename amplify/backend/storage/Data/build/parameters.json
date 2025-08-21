@@ -1,0 +1,29 @@
+{
+  "bucketName": "pixelbucket",
+  "selectedGuestPermissions": [],
+  "selectedAuthenticatedPermissions": [
+    "s3:PutObject"
+  ],
+  "unauthRoleName": {
+    "Ref": "UnauthRoleName"
+  },
+  "authRoleName": {
+    "Ref": "AuthRoleName"
+  },
+  "triggerFunction": "S3Triggerd29e7b80",
+  "s3PrivatePolicy": "Private_policy_bb6c12b8",
+  "s3ProtectedPolicy": "Protected_policy_bb6c12b8",
+  "s3PublicPolicy": "Public_policy_bb6c12b8",
+  "s3ReadPolicy": "read_policy_bb6c12b8",
+  "s3UploadsPolicy": "Uploads_policy_bb6c12b8",
+  "authPolicyName": "s3_amplify_bb6c12b8",
+  "unauthPolicyName": "s3_amplify_bb6c12b8",
+  "AuthenticatedAllowList": "DISALLOW",
+  "GuestAllowList": "DISALLOW",
+  "s3PermissionsAuthenticatedPrivate": "s3:PutObject",
+  "s3PermissionsAuthenticatedProtected": "s3:PutObject",
+  "s3PermissionsAuthenticatedPublic": "s3:PutObject",
+  "s3PermissionsAuthenticatedUploads": "s3:PutObject",
+  "s3PermissionsGuestPublic": "DISALLOW",
+  "s3PermissionsGuestUploads": "DISALLOW"
+}

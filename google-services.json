@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "634182036620",
+    "project_id": "shirt-62a97",
+    "storage_bucket": "shirt-62a97.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634182036620:android:f65c1768a5a3c846869fa9",
+        "android_client_info": {
+          "package_name": "com.example.pixel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASh16e7hAtfF5p0wuiICkaa7cBHrY6Jxk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634182036620:android:dc0b1719c6f32de0869fa9",
+        "android_client_info": {
+          "package_name": "com.example.pixel_final"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASh16e7hAtfF5p0wuiICkaa7cBHrY6Jxk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

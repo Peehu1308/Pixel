@@ -1,0 +1,50 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-pixel-dev-e0c67-authRole",
+      "UnauthRoleArn": "arn:aws:iam::278307115103:role/amplify-pixel-dev-e0c67-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::278307115103:role/amplify-pixel-dev-e0c67-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-pixel-dev-e0c67-deployment",
+      "UnauthRoleName": "amplify-pixel-dev-e0c67-unauthRole",
+      "StackName": "amplify-pixel-dev-e0c67",
+      "StackId": "arn:aws:cloudformation:ap-south-1:278307115103:stack/amplify-pixel-dev-e0c67/0f5f2ba0-510f-11f0-a99a-022b31e5f3f9",
+      "AmplifyAppId": "d3m1h5r2e5e5ue"
+    },
+    "categories": {
+      "auth": {
+        "pixelef944c7b": {}
+      },
+      "function": {
+        "S3Triggerd29e7b80": {
+          "deploymentBucketName": "amplify-pixel-dev-e0c67-deployment",
+          "s3Key": "amplify-builds/S3Triggerd29e7b80-524d37514f66344f797a-build.zip"
+        },
+        "pixelef944c7bCreateAuthChallenge": {},
+        "pixelef944c7bCustomMessage": {
+          "REDIRECTURL": "myapp://confirm",
+          "EMAILSUBJECT": "Welcome to Pixel – Please confirm your email",
+          "EMAILMESSAGE": "Hi {username},Thank you for signing up for Pixel"
+        },
+        "pixelef944c7bDefineAuthChallenge": {},
+        "pixelef944c7bPostConfirmation": {
+          "GROUP": "PixelAuthGroup"
+        },
+        "pixelef944c7bPreSignup": {
+          "DOMAINALLOWLIST": ".bennett.edu.in",
+          "DOMAINDENYLIST": "@gmail.com"
+        },
+        "pixelef944c7bVerifyAuthChallengeResponse": {
+          "RECAPTCHASECRET": "6LfA9mwrAAAAAFR8YRoBF8kRmdl4soX2xwmT8JW8"
+        },
+        "pixelef944c7bPreTokenGeneration": {}
+      },
+      "storage": {
+        "Data": {}
+      },
+      "api": {
+        "pixel": {}
+      }
+    }
+  }
+}
