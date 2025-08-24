@@ -46,8 +46,7 @@ class Club_List extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
                 imageUrl,
-                height: 80,
-                width: 80,
+                
                 fit: BoxFit.cover,
               ),
             ),
@@ -61,8 +60,8 @@ class Club_List extends StatelessWidget {
                   Text(
                     clubName,
                     style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      // fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 12),

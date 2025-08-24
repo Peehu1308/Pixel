@@ -35,8 +35,12 @@ class Highlight extends StatelessWidget {
               //   begin: Alignment.topLeft,
               //   end: Alignment.bottomRight,
               // ),
-              color: Color.fromARGB(255, 81, 59, 245)
-                          .withOpacity(0.4),
+
+
+              color: Colors.purple.withOpacity(0.6),
+              // Color choice
+              // color: Color.fromARGB(255, 81, 59, 245)
+              //             .withOpacity(0.4),
                       // spreadRadius: 2,
                       // blurRadius: 2,
             ),

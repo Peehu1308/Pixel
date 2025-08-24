@@ -1,3 +1,5 @@
+import 'package:pixel/utils/encrypt.dart';
+
 class CommentModel {
   final String username;
   final String comment;
@@ -16,16 +18,25 @@ class CommentModel {
   });
 
   factory CommentModel.fromJson(Map<String, dynamic> json) {
-    return CommentModel(
-      username: json['Username'] ?? 'Anonymous',
-      comment: json['comment'],
-      datetime: DateTime.parse(json['created_at']),
-      email: json['email'],
-      imageUrl: json['Users']?['Image'],
-      image:(json['image'] as List<dynamic>?)
-          ?.map((e)=>e as String)
-          .toList(),
+  final crypto = CryptoHelper();
 
-    );
-  }
+  // Safely handle Username (null / encrypted / plain)
+  final rawUsername = json['Username'] as String?;
+  final safeUsername = crypto.safeDecrypt(rawUsername) ;
+  print("DEBUG Comment JSON: $json");
+
+  return CommentModel(
+    username: safeUsername.isEmpty ? 'Anonymous' : safeUsername,
+    comment: json['comment'] as String? ?? '',
+    datetime: DateTime.tryParse(json['created_at'] ?? '') ?? DateTime.now(),
+    email: json['email'] as String? ?? '',
+    imageUrl: json['Users']?['Image'] as String?,
+    image: (json['image'] as List<dynamic>?)
+    ?.where((e) => e != null)     // remove nulls
+    .map((e) => e.toString())     // safe conversion
+    .toList(),
+
+  );
+}
+
 }

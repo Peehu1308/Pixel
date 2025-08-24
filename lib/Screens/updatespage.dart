@@ -8,10 +8,9 @@ import 'package:pixel/Components/navbar.dart';
 import 'package:pixel/Components/update_box.dart';
 import 'package:pixel/Components/updates_dart.dart';
 import 'package:pixel/Screens/profile.dart';
-import 'package:pixel/admin/add_highlight.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class Event {
+class Updates {
   final String title;
   final String clubName;
   final String date;
@@ -19,7 +18,7 @@ class Event {
   final String description;
   final String time;
 
-  Event({
+  Updates({
     required this.title,
     required this.clubName,
     required this.date,
@@ -28,29 +27,30 @@ class Event {
     required this.time,
   });
 
-  factory Event.fromJson(Map<String, dynamic> json) {
-    return Event(
+  factory Updates.fromJson(Map<String, dynamic> json) {
+    return Updates(
       title: json['Name'] ?? '',
       clubName: json['Club_Name'] ?? '',
       date: json['date'] ?? '',
       imageUrl: json['Image_url'] ?? '',
       description: json['Description'] ?? '',
-      time:json['Time'],
+      time: json['Time'],
     );
   }
 }
 
-class Adminevent extends StatefulWidget {
+class Updates_Screen extends StatefulWidget {
   final String email;
 
-  const Adminevent({super.key, required this.email});
+  const Updates_Screen({super.key, required this.email});
 
   @override
-  State<Adminevent> createState() => _AdmineventState();
+  State<Updates_Screen> createState() => _Updates_ScreenState();
 }
 
-class _AdmineventState extends State<Adminevent> {
+class _Updates_ScreenState extends State<Updates_Screen> {
   String profileImage = "";
+
   Future<void> fetchProfileImage() async {
     final response = await Supabase.instance.client
         .from('Users')
@@ -65,9 +65,9 @@ class _AdmineventState extends State<Adminevent> {
     }
   }
 
-  Future<List<Event>> fetchEvents() async {
+  Future<List<Updates>> fetchUpdatess() async {
     final response = await Supabase.instance.client.from('Hackathon').select();
-    return (response as List).map((data) => Event.fromJson(data)).toList();
+    return (response as List).map((data) => Updates.fromJson(data)).toList();
   }
 
   Future<List<HighlightModel>> fetchHighlights() async {
@@ -89,6 +89,7 @@ class _AdmineventState extends State<Adminevent> {
     fetchProfileImage();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -127,6 +128,7 @@ class _AdmineventState extends State<Adminevent> {
             ),
           )
         ],
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Column(

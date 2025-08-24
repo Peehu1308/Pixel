@@ -3,8 +3,10 @@ import 'package:pixel/Screens/Calender.dart';
 import 'package:pixel/Screens/club.dart';
 import 'package:pixel/Screens/event.dart';
 import 'package:pixel/Screens/friends_screen.dart';
+import 'package:pixel/Screens/updatespage.dart';
 // import 'package:pixel/Screens/main.dart';
 import 'package:pixel/admin/Admin_home.dart';
+import 'package:pixel/admin/admin_specs.dart';
 import 'package:pixel/admin/adminevent.dart';
 import 'package:pixel/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -55,24 +57,48 @@ class Navbar extends StatelessWidget {
           .eq('admin_email', email)
           .maybeSingle();
           if(admin!=null){
-            Navigator.push(context,MaterialPageRoute(builder: (context)=>Adminevent(email:email)));
+            Navigator.push(context,MaterialPageRoute(builder: (context)=>Admin_FriendsScreen(email: email,)));
           }
           else{
             Navigator.push(context,MaterialPageRoute(builder: (context)=>FriendsScreen(email: email,)));
           }
         }
-        else if(index==3){
-          Navigator.push(context,MaterialPageRoute(builder: (context)=>Clubs_Screen(email:email)));
-        }
         else if(index==2){
-          
-          Navigator.push(context,MaterialPageRoute(builder: (context)=>Event_Screen(email:email)));
+          final supabase = Supabase.instance.client;
+        
+          final admin=await supabase
+          .from('admin')
+          .select()
+          .eq('admin_email', email)
+          .maybeSingle();
+          if(admin!=null){
+            Navigator.push(context,MaterialPageRoute(builder: (context)=>Adminevent(email:email)));
+          }
+          else{
+            Navigator.push(context,MaterialPageRoute(builder: (context)=>Updates_Screen(email: email,)));
+          }
         }
+        else if(index==3){
+          final supabase = Supabase.instance.client;
+        
+          final admin=await supabase
+          .from('admin')
+          .select()
+          .eq('admin_email', email)
+          .maybeSingle();
+          if(admin!=null){
+            Navigator.push(context,MaterialPageRoute(builder: (context)=>Clubs_Screen(email:email)));
+          }
+          else{
+            Navigator.push(context,MaterialPageRoute(builder: (context)=>Clubs_Screen(email: email,)));
+          }
+        }
+        
       },
       // backgroundColor: Colors.transparent,
       backgroundColor: Colors.white,
-      
-      selectedItemColor: Colors.orange,
+      selectedItemColor: Colors.purple,
+      // selectedItemColor: Colors.orange,
       unselectedItemColor: Colors.black,
       showUnselectedLabels: true,
       type: BottomNavigationBarType.fixed,

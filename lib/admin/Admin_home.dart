@@ -4,6 +4,7 @@ import 'package:pixel/Check/data.dart';
 import 'package:pixel/Components/event_box.dart';
 import 'package:pixel/Components/navbar.dart';
 import 'package:pixel/Screens/profile.dart';
+import 'package:pixel/admin/choice.dart';
 import 'package:pixel/admin/creat_admin.dart';
 import 'package:pixel/admin/create_event.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -160,7 +161,7 @@ class _AdminHomeState extends State<AdminHome> {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        CreateEvent(email: widget.email)),
+                        Choice_Admin(email: widget.email)),
               );
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -175,7 +176,7 @@ class _AdminHomeState extends State<AdminHome> {
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                image: AssetImage("lib/assets/school.png"),
+                image: AssetImage("lib/assets/club.jpeg"),
                 fit: BoxFit.fill,
               ),
             ),

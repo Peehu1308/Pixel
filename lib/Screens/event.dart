@@ -169,10 +169,13 @@ class _Event_ScreenState extends State<Event_Screen> {
                 children: [
                   Align(
                     alignment: Alignment.topLeft,
-                    child: Text(
-                      "Events",
-                      style: GoogleFonts.recursive(
-                          fontSize: 30, color: Colors.black),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left:8.0),
+                      child: Text(
+                        "Events",
+                        style: GoogleFonts.recursive(
+                            fontSize: 30, color: Colors.black),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),

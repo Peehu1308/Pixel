@@ -46,10 +46,11 @@ class _EventCardState extends State<EventCard> {
       case 'webinar':
         return Colors.teal;
       case 'seminar':
-        return Colors.orange;
+        return const Color.fromARGB(255, 0, 149, 255);
       case 'workshop':
         return Colors.green;
       case 'hackathon':
+  
         return Colors.blueGrey;
       case 'tech talk':
         return Colors.lightBlue;
@@ -72,7 +73,7 @@ class _EventCardState extends State<EventCard> {
       case 'movie night':
         return Colors.amber;
       case 'jam session':
-        return Colors.orangeAccent;
+        return const Color.fromARGB(255, 241, 21, 116);
       case 'treasure hunt':
         return Colors.deepOrange;
       case 'gd': // Group Discussion

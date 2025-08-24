@@ -22,7 +22,7 @@ class _PersonalState extends State<Personal> {
   final nameController = TextEditingController();
   final semesterController = TextEditingController();
   final universityController = TextEditingController();
-  final contactController = TextEditingController();
+  // final contactController = TextEditingController();
   final techStackController = TextEditingController();
   final descriptionController = TextEditingController();
   final projectController = TextEditingController();
@@ -86,7 +86,7 @@ class _PersonalState extends State<Personal> {
         'Name': crypto.encryptText(nameController.text.trim()),
         'Semester': int.tryParse(semesterController.text.trim()) ?? 0,
         'University': crypto.encryptText(universityController.text.trim()),
-        'Contact': crypto.encryptText(contactController.text.trim()),
+        // 'Contact': crypto.encryptText(contactController.text.trim()),
         'Tech_Stack': techStackController.text.trim().isNotEmpty
             ? techStackController.text
                 .trim()
@@ -167,7 +167,7 @@ class _PersonalState extends State<Personal> {
               buildInputField(nameController, 'Full Name'),
               buildInputField(semesterController, 'What semester are you in?'),
               buildInputField(universityController, 'University'),
-              buildInputField(contactController, 'Phone Number'),
+              // buildInputField(contactController, 'Phone Number'),
               buildInputField(
                   techStackController, 'Tech Stack (comma separated)'),
               buildInputField(descriptionController, 'Description'),

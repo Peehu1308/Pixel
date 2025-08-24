@@ -21,7 +21,7 @@ class _ProfileState extends State<Profile> {
   String name = '';
   String university = '';
   String description = '';
-  String contact = '';
+  // String contact = '';
   int semester = 0;
   List<String> techStack = [];
   List<String> projects = [];
@@ -59,16 +59,16 @@ class _ProfileState extends State<Profile> {
           university = widget.cryto.decryptText(response['University'] ?? '');
           semester = response['Semester'] ?? 0;
           description = widget.cryto.decryptText(response['Description'] ?? '');
-          contact = widget.cryto.decryptText(response['Contact'] ?? '');
+          // contact = widget.cryto.decryptText(response['Contact'] ?? '');
           image = response['Image'] ?? '';
 
           // Decrypt list fields
           techStack = List<String>.from(
-            (response['Tech_Stack'] ?? []).map((e) => widget.cryto.decryptText(e)),
+            (response['Tech_Stack'] ?? []),
           );
 
           projects = List<String>.from(
-            (response['Project'] ?? []).map((e) => widget.cryto.decryptText(e)),
+            (response['Project'] ?? [])
           );
 
           likedTopics = List<String>.from(response['Liked'] ?? []);
@@ -248,6 +248,7 @@ class _ProfileState extends State<Profile> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.purple.withOpacity(0.5), width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black12,

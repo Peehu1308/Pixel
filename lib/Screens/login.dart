@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_flutter/amplify_flutter.dart' hide AuthException;
 import 'package:pixel/Check/blank.dart';
 import 'package:pixel/Screens/Desc.dart';
 import 'package:pixel/Screens/Home_Screen.dart';
 import 'package:pixel/Screens/Sign_up.dart';
 import 'package:pixel/Screens/feedback.dart';
+import 'package:pixel/admin/Admin_home.dart';
 // import 'package:pixel/Screens/main.dart';
 import 'package:pixel/main.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,6 +23,20 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
   String message = "";
 
+  Future<bool> checkadmin(String email) async {
+    final response = await Supabase.instance.client
+        .from('admin')
+        .select('admin_email')
+        .eq('admin_email', email)
+        .maybeSingle();
+
+    if (response != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<void> handleLogin() async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
@@ -33,8 +49,20 @@ class _LoginScreenState extends State<LoginScreen> {
         username: email,
         password: password,
       );
+      bool isadmin = await checkadmin(email);
 
-      if (result.isSignedIn) {
+      if (result.isSignedIn && isadmin) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Login successful!")),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => AdminHome(email: email)
+              // Home_Screen(email: email)
+              ),
+        );
+      }
+      else if(result.isSignedIn && !isadmin){
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Login successful!")),
         );
@@ -44,7 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
               // Home_Screen(email: email)
               ),
         );
-      } else {
+      }
+      else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Login failed. Check credentials.")),
         );
@@ -89,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 40),
-          
+
               // Email
               SizedBox(
                 width: 300,
@@ -102,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-          
+
               // Password
               SizedBox(
                 width: 300,
@@ -116,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-          
+
               // Login Button
               ElevatedButton(
                 onPressed: handleLogin,
@@ -130,13 +159,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-          
+
               // Feedback message
               Text(
                 message,
                 style: const TextStyle(color: Colors.red),
               ),
-          
+
               // Signup link
               TextButton(
                 onPressed: () {

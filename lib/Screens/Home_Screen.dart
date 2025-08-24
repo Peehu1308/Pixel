@@ -401,9 +401,9 @@ class _Home_ScreenState extends State<Home_Screen> {
                           //   style: GoogleFonts.recursive(
                           //       fontSize: 21, color: Colors.white),
                           // ),
-                          Text("Connect with your community and join exciting hackathons,workshops, and more!",
+                          Text("Connect with your community and join exciting hackathons ,workshops, and more!",
                               style: GoogleFonts.recursive(
-                                  fontSize: 17, color: Colors.white)),
+                                  fontSize: 14, color: Colors.white)),
 
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -521,7 +521,7 @@ class _Home_ScreenState extends State<Home_Screen> {
         padding: const EdgeInsets.only(left:10.0),
         child: Text(
           title,
-          style: GoogleFonts.recursive(fontSize: 20, color: Colors.black),
+          style: GoogleFonts.recursive(fontSize: 19, color: Colors.black),
         ),
       ),
     );
