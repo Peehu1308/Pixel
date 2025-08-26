@@ -108,6 +108,7 @@ class _EventCardState extends State<EventCard> {
                         // type: widget.type,
                         email: widget.email,
                         time: widget.time,
+                        type:widget.type,
                       )));
         },
         child: Container(
