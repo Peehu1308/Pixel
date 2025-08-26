@@ -61,8 +61,8 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: _amplifyConfigured
-          ? SplashScreen()
-          // ? Clubs_Screen(email: 'S24CSEU0489@bennett.edu.in')
+          // ? SplashScreen()
+          ? Clubs_Screen(email: 'S24CSEU0489@bennett.edu.in')
           // ? Clubs_Screen(email: 'E23CSEU2289@bennett.edu.in')
           : Scaffold(body: Center(child: CircularProgressIndicator())),
     );

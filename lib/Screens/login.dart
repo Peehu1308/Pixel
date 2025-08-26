@@ -22,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   String message = "";
+  bool isLoading = false;
 
   Future<bool> checkadmin(String email) async {
     final response = await Supabase.instance.client
@@ -38,42 +39,45 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> handleLogin() async {
+    setState(() => isLoading = true);
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
     try {
-      // Always sign out before attempting login
-      await Amplify.Auth.signOut();
-
       final result = await Amplify.Auth.signIn(
         username: email,
         password: password,
       );
-      bool isadmin = await checkadmin(email);
 
-      if (result.isSignedIn && isadmin) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Login successful!")),
-        );
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => AdminHome(email: email)
-              // Home_Screen(email: email)
-              ),
-        );
-      }
-      else if(result.isSignedIn && !isadmin){
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Login successful!")),
-        );
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => MainScreen(email: email)
-              // Home_Screen(email: email)
-              ),
-        );
-      }
-      else {
+      if (result.isSignedIn) {
+        bool isadmin = await checkadmin(email);
+
+        //
+        if (isadmin) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Login successful!")),
+          );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => AdminHome(email: email)
+                // Home_Screen(email: email)
+                ),
+          );
+        } 
+        else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Login successful!")),
+          );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => MainScreen(email: email)
+                // Home_Screen(email: email)
+                ),
+          );
+        }
+
+        //
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Login failed. Check credentials.")),
         );
@@ -82,6 +86,8 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Login error: ${e.message}")),
       );
+    } finally {
+      setState(() => isLoading = false);
     }
   }
 
@@ -145,9 +151,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-
-              // Login Button
-              ElevatedButton(
+              isLoading
+              ?const CircularProgressIndicator()
+              :ElevatedButton(
                 onPressed: handleLogin,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
