@@ -92,20 +92,21 @@ class _EventCardState extends State<ClubBox> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Description_Screen(
-                            description: widget.description,
-                            title: widget.title,
-                            clubName: widget.clubName,
-                            date: widget.date,
-                            imageUrl: widget.imageUrl,
-                            email: widget.email,
-                            time: widget.time, 
-                          ),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => Description_Screen(
+                      //       description: widget.description,
+                      //       title: widget.title,
+                      //       clubName: widget.clubName,
+                      //       date: widget.date,
+                      //       imageUrl: widget.imageUrl,
+                      //       email: widget.email,
+                      //       time: widget.time, 
+                      //       type: widget.ty,
+                      //     ),
+                      //   ),
+                      // );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
