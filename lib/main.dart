@@ -50,9 +50,12 @@ class _MyAppState extends State<MyApp> {
         _amplifyConfigured = true;
       });
     } on AmplifyAlreadyConfiguredException {
+      safePrint("Amplify configured");
       setState(() {
         _amplifyConfigured = true;
       });
+    } catch (e) {
+      safePrint("$e");
     }
   }
 
