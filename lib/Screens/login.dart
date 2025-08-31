@@ -39,11 +39,21 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> handleLogin() async {
+    if (!Amplify.isConfigured) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Amplify is not ready ")));
+      return;
+    }
     setState(() => isLoading = true);
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
     try {
+      final session = await Amplify.Auth.fetchAuthSession();
+      if (session.isSignedIn) {
+        await Amplify.Auth.signOut();
+      }
+
       final result = await Amplify.Auth.signIn(
         username: email,
         password: password,
@@ -51,6 +61,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (result.isSignedIn) {
         bool isadmin = await checkadmin(email);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Login Successful!")),
+        );
 
         //
         if (isadmin) {
@@ -84,6 +98,10 @@ class _LoginScreenState extends State<LoginScreen> {
     } on AuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Login error: ${e.message}")),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Unexpected error: $e")),
       );
     } finally {
       setState(() => isLoading = false);
