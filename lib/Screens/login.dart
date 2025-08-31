@@ -63,8 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Home_Screen(email: email)
                 ),
           );
-        } 
-        else {
+        } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Login successful!")),
           );
@@ -152,18 +151,18 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 20),
               isLoading
-              ?const CircularProgressIndicator()
-              :ElevatedButton(
-                onPressed: handleLogin,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  minimumSize: const Size(300, 50),
-                ),
-                child: const Text(
-                  "Login",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+                  ? const CircularProgressIndicator()
+                  : ElevatedButton(
+                      onPressed: handleLogin,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        minimumSize: const Size(300, 50),
+                      ),
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
               const SizedBox(height: 20),
 
               // Feedback message
