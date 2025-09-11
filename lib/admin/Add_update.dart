@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
 
 class AddUpdateScreen extends StatefulWidget {
@@ -54,7 +55,7 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
       'admin_id': widget.userEmail,
       'heading': heading,
       'Update': updateText,
-      'Image': imageUrl, // make column text[] if multiple images
+      'Image': imageUrl,
     });
 
     _headingController.clear();
@@ -72,43 +73,103 @@ class _AddUpdateScreenState extends State<AddUpdateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Add Update")),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        title: Text(
+          "Add Update",
+          style: GoogleFonts.poppins(
+            color: Colors.black,
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Heading Field
             TextField(
               controller: _headingController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: "Heading",
-                border: OutlineInputBorder(),
+                labelStyle: GoogleFonts.poppins(color: Colors.grey[600]),
+                filled: true,
+                fillColor: Colors.grey[100],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
               ),
+              style: GoogleFonts.poppins(fontSize: 16),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
+
+            // Update Field
             TextField(
               controller: _updateController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: "Write an update...",
-                border: OutlineInputBorder(),
+                labelStyle: GoogleFonts.poppins(color: Colors.grey[600]),
+                filled: true,
+                fillColor: Colors.grey[100],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
               ),
+              style: GoogleFonts.poppins(fontSize: 16),
               maxLines: null,
             ),
-            const SizedBox(height: 12),
-            if (_selectedImage != null) Image.file(_selectedImage!, height: 120),
+            const SizedBox(height: 20),
+
+            // Preview Image
+            if (_selectedImage != null)
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.file(
+                  _selectedImage!,
+                  height: 160,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            if (_selectedImage != null) const SizedBox(height: 20),
+
+            // Actions Row
             Row(
               children: [
+                // Pick Image
                 IconButton(
-                  icon: const Icon(Icons.image),
+                  icon: const Icon(Icons.image, color: Colors.black87),
                   onPressed: _pickImage,
                 ),
                 const Spacer(),
-                ElevatedButton.icon(
+
+                // Post Button
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 2,
+                  ),
                   onPressed: _isUploading ? null : _submitUpdate,
-                  icon: const Icon(Icons.send),
-                  label: _isUploading
-                      ? const Text("Posting...")
-                      : const Text("Post"),
+                  child: Text(
+                    _isUploading ? "Posting..." : "Post",
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
               ],
             ),
