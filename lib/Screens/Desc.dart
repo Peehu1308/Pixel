@@ -116,7 +116,7 @@ class Description_Screen extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 8),
-          
+
                         // Date
                         Text(
                           date,
@@ -127,7 +127,7 @@ class Description_Screen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 12),
-          
+
                         // Type & Organizer as chips
                         Wrap(
                           alignment: WrapAlignment.center,
@@ -162,7 +162,7 @@ class Description_Screen extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 12),
-          
+
                         // Short description
                         // Padding(
                         //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -180,10 +180,11 @@ class Description_Screen extends StatelessWidget {
                   ),
                 ],
               ),
-          
+
               // Foreground content
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.only(
+                    left: 16.0, right: 16, top: 16, bottom: 60),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -215,8 +216,100 @@ class Description_Screen extends StatelessWidget {
                     const SizedBox(height: 5),
                     Text(
                       description,
-                      style: const TextStyle(fontSize: 15, color: Colors.black87),
+                      style:
+                          const TextStyle(fontSize: 15, color: Colors.black87),
                     ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          // 🔍 Find Teammates - Solid Black Button
+                          SizedBox(
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            Recommendation(email: email)));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: const Text(
+                                "Find Teammates",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+
+                          // ✨ Create Team - White Button
+                          SizedBox(
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => UniqueCode(
+                                            email: email,
+                                            hackathontitle: title)));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.black,
+                                elevation: 3,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: const Text(
+                                "Create Team",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+
+                          // 🤝 Join Team - Outlined Button
+                          SizedBox(
+                            height: 50,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            JoinTeam(email: email)));
+                              },
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: Colors.black,
+                                side: const BorderSide(
+                                    color: Colors.black, width: 1.4),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: const Text(
+                                "Join Team",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
