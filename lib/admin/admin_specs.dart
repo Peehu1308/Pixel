@@ -6,6 +6,7 @@ import 'package:pixel/Components/frames.dart';
 import 'package:pixel/Components/frames_manager.dart';
 import 'package:pixel/Components/navbar.dart';
 import 'package:pixel/Screens/profile.dart';
+import 'package:pixel/admin/navbar_admin.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Admin_FriendsScreen extends StatefulWidget {
@@ -167,7 +168,7 @@ class _Admin_FriendsScreenState extends State<Admin_FriendsScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: Navbar(
+      bottomNavigationBar: Navbar_Admin(
         currentIndex: 1,
         onTap: (index) {},
         email: widget.email,
