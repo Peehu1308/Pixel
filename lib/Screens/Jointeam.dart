@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pixel/Screens/event.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -12,6 +13,7 @@ class JoinTeam extends StatefulWidget {
 
 class _JoinTeamState extends State<JoinTeam> {
   final TextEditingController _uniquecode = TextEditingController();
+
   Future<void> jointeam() async {
     final supabase = Supabase.instance.client;
     final inputcode = _uniquecode.text.trim();
@@ -25,7 +27,7 @@ class _JoinTeamState extends State<JoinTeam> {
 
       if (response.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Invalid team code')),
+          const SnackBar(content: Text('❌ Invalid team code')),
         );
         return;
       }
@@ -33,7 +35,7 @@ class _JoinTeamState extends State<JoinTeam> {
       List<dynamic> currentMember = response['Members'];
       if (currentMember.contains(widget.email)) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('You are already in the team')),
+          const SnackBar(content: Text('⚠️ You are already in the team')),
         );
         return;
       }
@@ -46,7 +48,8 @@ class _JoinTeamState extends State<JoinTeam> {
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: const Text('Successfully joined the team')));
+        const SnackBar(content: Text('🎉 Successfully joined the team')),
+      );
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -54,7 +57,7 @@ class _JoinTeamState extends State<JoinTeam> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error:${e.toString()}')),
+        SnackBar(content: Text('Error: ${e.toString()}')),
       );
     }
   }
@@ -62,34 +65,80 @@ class _JoinTeamState extends State<JoinTeam> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Join Team'),
-      ),
-      body: Padding(padding: 
-      EdgeInsets.all(16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextField(
-            controller: _uniquecode,
-            decoration: const InputDecoration(
-                labelText: "Enter Team's Unique Code",
-                border: OutlineInputBorder(),
-              ),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text(
+          "Join Team",
+          style: GoogleFonts.poppins(
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
           ),
-          const SizedBox(height:20),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(onPressed: jointeam, 
-            child:Text('Join Team'),
-            style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                ),),
-          )
-        ],
-      ),),
+        ),
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Text(
+                "Enter your team's unique code to join",
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  color: Colors.black87,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+
+              // Input field
+              TextField(
+                controller: _uniquecode,
+                style: GoogleFonts.poppins(),
+                decoration: InputDecoration(
+                  labelText: "Team Code",
+                  labelStyle: GoogleFonts.poppins(color: Colors.black54),
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                ),
+              ),
+
+              const SizedBox(height: 25),
+
+              // Join Button
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: jointeam,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green.shade600,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Text(
+                    "Join Team",
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
