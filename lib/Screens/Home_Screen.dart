@@ -7,6 +7,7 @@ import 'package:pixel/Components/feedback_box.dart';
 import 'package:pixel/Screens/Calender.dart';
 import 'package:pixel/Screens/Sign_up.dart';
 import 'package:pixel/Screens/cal.dart';
+import 'package:pixel/Screens/club.dart';
 import 'package:pixel/Screens/event.dart';
 import 'package:pixel/Screens/feedback_list.dart';
 import 'package:pixel/Screens/profile.dart';
@@ -411,10 +412,10 @@ class _Home_ScreenState extends State<Home_Screen> {
                               
                                ElevatedButton(onPressed: (){
                                   Navigator.push(context,MaterialPageRoute(builder: (_)=>Event_Screen(email: widget.email)));
-                                }, child: Text("Explore Events",style: GoogleFonts.recursive(fontSize:15,color: Colors.white)),
+                                }, child: Text("Explore Events",style: GoogleFonts.recursive(fontSize:12,color: Colors.black)),
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(horizontal: 11, vertical:3),
-                                  backgroundColor: Colors.orange,
+                                  backgroundColor: Colors.white,
                                   minimumSize: Size(8, 8),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
