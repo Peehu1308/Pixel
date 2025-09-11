@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pixel/Screens/Createteam.dart';
 import 'package:pixel/Screens/Jointeam.dart';
 import 'package:pixel/Screens/recommendation.dart';
-import 'package:share_plus/share_plus.dart';
 
 class EventHome extends StatelessWidget {
   final String title;
@@ -28,145 +27,211 @@ class EventHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
         title: Text(
           "Pixel",
-          style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
+          style: GoogleFonts.poppins(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w700),
         ),
         backgroundColor: Colors.transparent,
       ),
       body: Stack(
         children: [
-          
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(imageUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Container(
-              color: Colors.black.withOpacity(0.8), 
-            ),
+          // Background image + dark overlay
+          Positioned.fill(
+            child: Image.network(imageUrl, fit: BoxFit.cover, errorBuilder: (_, __, ___) => Container(color: Colors.grey)),
           ),
-          
-          SingleChildScrollView(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
-            child: Padding(
-              padding: const EdgeInsets.only(left:8.0,right: 8.0,top: 8.0,bottom: 16),
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: GoogleFonts.recursive(
-                        fontSize: 32,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      "Date: $date",
-                      style: const TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      "Organized by: $clubName".toUpperCase(),
-                      style: const TextStyle(fontSize: 18, color: Colors.white70),
-                    ),
-                    const SizedBox(height: 20),
+          Positioned.fill(child: Container(color: Colors.black.withOpacity(0.75))),
 
-                    
-                    // Text(
-                    //   "$description",
-                    //   style: GoogleFonts.recursive(
-                    //       fontSize: 16, color: Colors.white),
-                    // ),
-                    SizedBox(height: 20),
-                    SizedBox(
-                      height: 50,
-                      width: 600,
-                      child: ElevatedButton(
-                          onPressed: () {
+          // Content
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 40), // bottom padding added
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Title
+                  Text(
+                    title,
+                    style: GoogleFonts.poppins(
+                      fontSize: 32,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Date and time row
+                  Row(
+                    children: [
+                      _InfoChip(icon: Icons.calendar_today, label: date),
+                      const SizedBox(width: 8),
+                      _InfoChip(icon: Icons.access_time, label: time),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+
+                  // Organizer
+                  Text(
+                    "Organized by: ${clubName.toUpperCase()}",
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      color: Colors.white70,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Description card
+                  if (description.isNotEmpty)
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.04),
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: Colors.white.withOpacity(0.06)),
+                      ),
+                      child: Text(
+                        description,
+                        style: GoogleFonts.poppins(
+                          color: Colors.white70,
+                          fontSize: 15,
+                          height: 1.4,
+                        ),
+                      ),
+                    ),
+
+                  const SizedBox(height: 26),
+
+                  // Buttons container (feels like a card)
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.03),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // Find Teammates -> primary dark button
+                        _buildActionButton(
+                          context,
+                          label: "Find Teammates",
+                          icon: Icons.person_search,
+                          dark: true,
+                          onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        Recommendation(email: email)));
+                              context,
+                              MaterialPageRoute(builder: (context) => Recommendation(email: email)),
+                            );
                           },
-                          child: Text(
-                            "Find Teammates",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          style: ButtonStyle(backgroundColor:
-                                
-                                MaterialStateProperty.all(Color.fromARGB(250, 89, 88, 88)),
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                          )),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      height: 50,
-                      width: 600,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
+                        ),
+                        const SizedBox(height: 12),
+
+                        // Create Team -> white button with border
+                        _buildActionButton(
+                          context,
+                          label: "Create Team",
+                          icon: Icons.add,
+                          dark: false,
+                          onTap: () {
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => UniqueCode(
-                                        email: email,
-                                        hackathontitle: title,
-                                      )));
-                        },
-                        child: Text(
-                          "Create Team",
-                          style: TextStyle(color: Colors.black),
+                                builder: (context) => UniqueCode(email: email, hackathontitle: title),
+                              ),
+                            );
+                          },
                         ),
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      height: 50,
-                      width: 600,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
+                        const SizedBox(height: 12),
+
+                        // Join Team -> white button with subtle icon
+                        _buildActionButton(
+                          context,
+                          label: "Join Team",
+                          icon: Icons.group,
+                          dark: false,
+                          onTap: () {
+                            Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => JoinTeam(email: email)));
-                        },
-                        child: Text(
-                          "Join Team",
-                          style: TextStyle(color: Colors.black),
+                              MaterialPageRoute(builder: (context) => JoinTeam(email: email)),
+                            );
+                          },
                         ),
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionButton(BuildContext context,
+      {required String label, required IconData icon, required VoidCallback onTap, required bool dark}) {
+    final textStyle = GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w600);
+    if (dark) {
+      return SizedBox(
+        height: 52,
+        child: ElevatedButton.icon(
+          onPressed: onTap,
+          icon: Icon(icon, color: Colors.white),
+          label: Text(label, style: textStyle.copyWith(color: Colors.white)),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.black,
+            elevation: 6,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+          ),
+        ),
+      );
+    } else {
+      return SizedBox(
+        height: 52,
+        child: ElevatedButton.icon(
+          onPressed: onTap,
+          icon: Icon(icon, color: Colors.black87),
+          label: Text(label, style: textStyle.copyWith(color: Colors.black87)),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            elevation: 2,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+          ),
+        ),
+      );
+    }
+  }
+}
+
+// small reusable info chip for date/time
+class _InfoChip extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  const _InfoChip({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.05),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: Colors.white70),
+          const SizedBox(width: 6),
+          Text(label, style: GoogleFonts.poppins(color: Colors.white70, fontSize: 13)),
         ],
       ),
     );
