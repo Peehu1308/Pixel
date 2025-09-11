@@ -9,6 +9,7 @@ import 'package:pixel/Components/update_box.dart';
 import 'package:pixel/Components/updates_dart.dart';
 import 'package:pixel/Screens/profile.dart';
 import 'package:pixel/admin/add_highlight.dart';
+import 'package:pixel/admin/navbar_admin.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Event {
@@ -235,7 +236,7 @@ class _AdmineventState extends State<Adminevent> {
         ),
       ),
       bottomNavigationBar:
-          Navbar(currentIndex: 2, onTap: (index) {}, email: widget.email),
+          Navbar_Admin(currentIndex: 2, onTap: (index) {}, email: widget.email),
     );
   }
 }
