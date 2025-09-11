@@ -31,67 +31,27 @@ class Navbar extends StatelessWidget {
       currentIndex: currentIndex,
       onTap: (index) async {
         if(index==0){
-        final supabase = Supabase.instance.client;
         
-          final admin=await supabase
-          .from('admin')
-          .select()
-          .eq('admin_email', email)
-          .maybeSingle();
-          if(admin!=null){
-            Navigator.push(context,MaterialPageRoute(builder: (context)=>AdminHome(email:email)));
-          }
-          else{
             Navigator.push(context,MaterialPageRoute(builder: (context)=>MainScreen(email:email)));
-          }
+          
         
         
           
         }
         else if(index==1){
-          final supabase = Supabase.instance.client;
-        
-          final admin=await supabase
-          .from('admin')
-          .select()
-          .eq('admin_email', email)
-          .maybeSingle();
-          if(admin!=null){
-            Navigator.push(context,MaterialPageRoute(builder: (context)=>Admin_FriendsScreen(email: email,)));
-          }
-          else{
+          
             Navigator.push(context,MaterialPageRoute(builder: (context)=>FriendsScreen(email: email,)));
-          }
+          
         }
         else if(index==2){
-          final supabase = Supabase.instance.client;
-        
-          final admin=await supabase
-          .from('admin')
-          .select()
-          .eq('admin_email', email)
-          .maybeSingle();
-          if(admin!=null){
-            Navigator.push(context,MaterialPageRoute(builder: (context)=>Adminevent(email:email)));
-          }
-          else{
+          
             Navigator.push(context,MaterialPageRoute(builder: (context)=>Updates_Screen(email: email,)));
-          }
+          
         }
         else if(index==3){
-          final supabase = Supabase.instance.client;
-        
-          final admin=await supabase
-          .from('admin')
-          .select()
-          .eq('admin_email', email)
-          .maybeSingle();
-          if(admin!=null){
+          
             Navigator.push(context,MaterialPageRoute(builder: (context)=>Clubs_Screen(email:email)));
-          }
-          else{
-            Navigator.push(context,MaterialPageRoute(builder: (context)=>Clubs_Screen(email: email,)));
-          }
+          
         }
         
       },
@@ -113,8 +73,8 @@ class Navbar extends StatelessWidget {
           label: 'Specs',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.event),
-          label: 'Events',
+          icon: Icon(Icons.tips_and_updates_sharp),
+          label: 'Updates',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.group),
