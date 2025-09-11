@@ -7,6 +7,7 @@ import 'package:pixel/Screens/profile.dart';
 import 'package:pixel/admin/choice.dart';
 import 'package:pixel/admin/creat_admin.dart';
 import 'package:pixel/admin/create_event.dart';
+import 'package:pixel/admin/navbar_admin.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AdminHome extends StatefulWidget {
@@ -146,7 +147,7 @@ class _AdminHomeState extends State<AdminHome> {
           ],
         ),
       ),
-      bottomNavigationBar: Navbar(currentIndex: 0, onTap: (index) {}, email: widget.email,),
+      bottomNavigationBar: Navbar_Admin(currentIndex: 0, onTap: (index) {}, email: widget.email,),
     );
   }
   Widget _createEventButton() {
@@ -257,7 +258,7 @@ class _AdminHomeState extends State<AdminHome> {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SizedBox(
-        height: 120,
+        
         width: 500,
         child: Container(
           decoration: BoxDecoration(
@@ -265,19 +266,87 @@ class _AdminHomeState extends State<AdminHome> {
             color: Colors.black,
           ),
           child: Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                "Find.\nAttend.\nEnjoy.",
-                style: GoogleFonts.recursive(
-                  fontSize: 18,
-                  color: Colors.white,
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top:16.0,left: 16,right: 16),
+                      child: Column(
+                        children: [
+                          // Text(
+                          //   "Discover Amazing Events",
+                          //   style: GoogleFonts.recursive(
+                          //       fontSize: 21, color: Colors.white),
+                          // ),
+                          Text("Host hackathons, workshops, and more — create and manage your community events with ease.",
+                              style: GoogleFonts.recursive(
+                                  fontSize: 14, color: Colors.white)),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              
+                               ElevatedButton(onPressed: (){
+                                  Navigator.push(context,MaterialPageRoute(builder: (_)=>Choice_Admin(email: widget.email)));
+                                }, child: Text("Create",style: GoogleFonts.recursive(fontSize:12,color: Colors.black)),
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(horizontal: 11, vertical:3),
+                                  backgroundColor: Colors.white,
+                                  minimumSize: Size(8, 8),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  
+                                ),
+                                ),
+                              
+                              //  ElevatedButton(onPressed: (){
+                              //     Navigator.push(context,MaterialPageRoute(builder: (_)=>Event_Screen(email: widget.email)));
+                              //   }, child: Text("Explore Events",style: GoogleFonts.recursive(fontSize:8,color: Colors.white)),
+                              //   style: ElevatedButton.styleFrom(
+                              //     padding: const EdgeInsets.symmetric(horizontal: 4, vertical:1),
+                              //     backgroundColor: Colors.grey,
+                              //     minimumSize: Size(8, 8),
+                              //     shape: RoundedRectangleBorder(
+                              //       borderRadius: BorderRadius.circular(30),
+                              //     ),
+                                  
+                              //   ),
+                                
+                              // ),
+                              // ElevatedButton(onPressed: (){
+                              //     Navigator.push(context,MaterialPageRoute(builder: (_)=>Event_Screen(email: widget.email)));
+                              //   }, child: Text("Explore Events",style: GoogleFonts.recursive(fontSize:8,color: Colors.white)),
+                              //   style: ElevatedButton.styleFrom(
+                              //     padding: const EdgeInsets.symmetric(horizontal: 4, vertical:1),
+                              //     backgroundColor: Colors.grey,
+                              //     minimumSize: Size(8, 8),
+                              //     shape: RoundedRectangleBorder(
+                              //       borderRadius: BorderRadius.circular(30),
+                              //     ),
+                                  
+                              //   ),
+                                
+                              // ),
+                              // ElevatedButton(onPressed: (){
+                              //     Navigator.push(context,MaterialPageRoute(builder: (_)=>Event_Screen(email: widget.email)));
+                              //   }, child: Text("Explore Events",style: GoogleFonts.recursive(fontSize:8,color: Colors.white)),
+                              //   style: ElevatedButton.styleFrom(
+                              //     padding: const EdgeInsets.symmetric(horizontal: 4, vertical:1),
+                              //     backgroundColor: Colors.grey,
+                              //     minimumSize: Size(8, 8),
+                              //     shape: RoundedRectangleBorder(
+                              //       borderRadius: BorderRadius.circular(30),
+                              //     ),
+                                  
+                              //   ),
+                                
+                              // ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }
