@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pixel/admin/Admin_home.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -26,8 +27,29 @@ class _CreateEventState extends State<CreateEvent> {
   String? selectedEvent;
 
   final Map<String, List<String>> eventTypeOptions = {
-    'Technical': ['Webinar', 'Seminar', 'Workshop','Hackathon','Tech Talk','Panel Discussion','Code Jam','Tech Exhibition','Bootcamp','Ideathon','Robotics'],
-    'Non-Technical': ['Talent Show', 'Movie Night', 'Jam Session','Treasure Hunt','GD','Sports','Poetry','Law'],
+    'Technical': [
+      'Webinar',
+      'Seminar',
+      'Workshop',
+      'Hackathon',
+      'Tech Talk',
+      'Panel Discussion',
+      'Code Jam',
+      'Tech Exhibition',
+      'Bootcamp',
+      'Ideathon',
+      'Robotics'
+    ],
+    'Non-Technical': [
+      'Talent Show',
+      'Movie Night',
+      'Jam Session',
+      'Treasure Hunt',
+      'GD',
+      'Sports',
+      'Poetry',
+      'Law'
+    ],
   };
 
   File? _image;
@@ -56,7 +78,6 @@ class _CreateEventState extends State<CreateEvent> {
     try {
       await supabase.storage.from('images').upload(path, imageToUpload);
       final imageUrl = supabase.storage.from('images').getPublicUrl(path);
-      print("🌐 Uploaded image URL: $imageUrl");
 
       final tableName = eventType == 'non-tech' ? 'Events' : 'Hackathon';
       final columnName = tableName == 'Events' ? 'Image' : 'Image_url';
@@ -71,92 +92,96 @@ class _CreateEventState extends State<CreateEvent> {
     }
   }
 
- Future<void> updateEvent() async {
-  final supabase = Supabase.instance.client;
-  final emailToUse = widget.email.trim();
-  final categoryType = category.text.trim().toLowerCase(); // 'technical' or 'non-technical'
-  final tableName = categoryType == 'non-technical' ? 'Events' : 'Hackathon';
+  Future<void> updateEvent() async {
+    final supabase = Supabase.instance.client;
+    final emailToUse = widget.email.trim();
+    final categoryType = category.text.trim().toLowerCase();
+    final tableName = categoryType == 'non-technical' ? 'Events' : 'Hackathon';
 
-  try {
-    final updates = categoryType == 'non-technical'
-        ? {
-            'Name': eventName.text.trim(),
-            'Date': date.text.trim(),
-            'Description': description.text.trim(),
-            'Team_size': int.tryParse(teamSize.text.trim()) ?? 0,
-            'Time': time.text.trim(),
-            'Club_name': clubName.text.trim(),
-            'Admin_email': emailToUse,
-            'Type': type.text.trim(),
-          }
-        : {
-            'Name': eventName.text.trim(),
-            'date': date.text.trim(),
-            'Description': description.text.trim(),
-            'team_size': int.tryParse(teamSize.text.trim()) ?? 0,
-            'Time': time.text.trim(),
-            'Club_Name': clubName.text.trim(),
-            'Admin_email': emailToUse,
-            'Type': type.text.trim(),
-          };
+    try {
+      final updates = categoryType == 'non-technical'
+          ? {
+              'Name': eventName.text.trim(),
+              'Date': date.text.trim(),
+              'Description': description.text.trim(),
+              'Team_size': int.tryParse(teamSize.text.trim()) ?? 0,
+              'Time': time.text.trim(),
+              'Club_name': clubName.text.trim(),
+              'Admin_email': emailToUse,
+              'Type': type.text.trim(),
+            }
+          : {
+              'Name': eventName.text.trim(),
+              'date': date.text.trim(),
+              'Description': description.text.trim(),
+              'team_size': int.tryParse(teamSize.text.trim()) ?? 0,
+              'Time': time.text.trim(),
+              'Club_Name': clubName.text.trim(),
+              'Admin_email': emailToUse,
+              'Type': type.text.trim(),
+            };
 
-    print("📝 Data to update: $updates");
+      final result =
+          await supabase.from(tableName).upsert(updates, onConflict: 'Name').select();
 
-    final result = await supabase
-        .from(tableName)
-        .upsert(updates, onConflict: 'Name')
-        .select();
+      dynamic newId;
+      if (result.isNotEmpty) {
+        newId = result[0]['id'];
+      }
 
-    print("✅ Data saved to Supabase: $result");
+      await uploadImage(categoryType, newId);
 
-    dynamic newId;
-    if (result.isNotEmpty) {
-      newId = result[0]['id'];
+      final adminRecord = await supabase
+          .from('admin')
+          .select('Created_events')
+          .eq('admin_email', emailToUse)
+          .single();
+
+      final List<dynamic> currentEvents =
+          List.from(adminRecord['Created_events'] ?? []);
+
+      if (result.isNotEmpty) {
+        currentEvents.add(result[0]['id']);
+      }
+
+      await supabase
+          .from('admin')
+          .update({'Created_events': currentEvents}).eq('admin_email', emailToUse);
+
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => AdminHome(email: widget.email)),
+        );
+      }
+    } catch (e) {
+      print("❌ Error saving event: $e");
     }
-
-    await uploadImage(categoryType, newId);
-
-    final adminRecord = await supabase
-        .from('admin')
-        .select('Created_events')
-        .eq('admin_email', emailToUse)
-        .single();
-
-    final List<dynamic> currentEvents =
-        List.from(adminRecord['Created_events'] ?? []);
-
-    if (result.isNotEmpty) {
-      currentEvents.add(result[0]['id']);
-    }
-
-    await supabase.from('admin').update({'Created_events': currentEvents}).eq(
-        'admin_email', emailToUse);
-
-    print("✅ Admin table updated");
-
-    if (mounted) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => AdminHome(email: widget.email)),
-      );
-    }
-  } catch (e) {
-    print("❌ Error saving event: $e");
   }
-}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Create Event'),
+        elevation: 0,
         backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.black),
+        title: Text(
+          "Create Event",
+          style: GoogleFonts.poppins(
+            color: Colors.black,
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             buildImagePicker(),
+            const SizedBox(height: 20),
             buildCategoryDropdown(),
             if (selectedCategory != null) buildEventDropdown(),
             buildInputField(eventName, 'Event Name'),
@@ -165,10 +190,26 @@ class _CreateEventState extends State<CreateEvent> {
             buildInputField(teamSize, 'Team Size'),
             buildTimeSelector(time, 'Time'),
             buildInputField(clubName, 'Club Name'),
+            const SizedBox(height: 30),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 40),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
               onPressed: updateEvent,
-              child: const Text('Create Event'),
+              child: Text(
+                "Create Event",
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
+            const SizedBox(height: 40),
           ],
         ),
       ),
@@ -176,21 +217,22 @@ class _CreateEventState extends State<CreateEvent> {
   }
 
   Widget buildImagePicker() {
-    return Padding(
-      padding: const EdgeInsets.all(10),
+    return GestureDetector(
+      onTap: pickImage,
       child: Column(
         children: [
-          GestureDetector(
-            onTap: pickImage,
-            child: CircleAvatar(
-              radius: 60,
-              backgroundImage: _image != null
-                  ? FileImage(_image!)
-                  : const AssetImage('lib/assets/club.jpeg') as ImageProvider,
-            ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: _image != null
+                ? Image.file(_image!, height: 150, width: double.infinity, fit: BoxFit.cover)
+                : Image.asset('lib/assets/club.jpeg',
+                    height: 150, width: double.infinity, fit: BoxFit.cover),
           ),
           const SizedBox(height: 10),
-          const Text('Tap to pick an image'),
+          Text(
+            "Tap to pick an image",
+            style: GoogleFonts.poppins(color: Colors.grey[600]),
+          ),
         ],
       ),
     );
@@ -198,15 +240,19 @@ class _CreateEventState extends State<CreateEvent> {
 
   Widget buildInputField(TextEditingController controller, String label) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(top: 16),
       child: TextField(
         controller: controller,
+        style: GoogleFonts.poppins(),
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-          fillColor: const Color.fromARGB(62, 238, 238, 238),
+          labelStyle: GoogleFonts.poppins(color: Colors.grey[600]),
           filled: true,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          fillColor: Colors.grey[100],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide.none,
+          ),
         ),
       ),
     );
@@ -214,20 +260,23 @@ class _CreateEventState extends State<CreateEvent> {
 
   Widget buildCategoryDropdown() {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(top: 16),
       child: DropdownButtonFormField<String>(
         value: selectedCategory,
         decoration: InputDecoration(
           labelText: "Select Category",
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-          fillColor: const Color.fromARGB(62, 238, 238, 238),
+          labelStyle: GoogleFonts.poppins(color: Colors.grey[600]),
           filled: true,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          fillColor: Colors.grey[100],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide.none,
+          ),
         ),
         items: eventTypeOptions.keys
             .map((category) => DropdownMenuItem(
                   value: category,
-                  child: Text(category),
+                  child: Text(category, style: GoogleFonts.poppins()),
                 ))
             .toList(),
         onChanged: (value) {
@@ -243,20 +292,23 @@ class _CreateEventState extends State<CreateEvent> {
 
   Widget buildEventDropdown() {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(top: 16),
       child: DropdownButtonFormField<String>(
         value: selectedEvent,
         decoration: InputDecoration(
           labelText: "Select Event Type",
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-          fillColor: const Color.fromARGB(62, 238, 238, 238),
+          labelStyle: GoogleFonts.poppins(color: Colors.grey[600]),
           filled: true,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          fillColor: Colors.grey[100],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide.none,
+          ),
         ),
         items: eventTypeOptions[selectedCategory]!
             .map((type) => DropdownMenuItem(
                   value: type,
-                  child: Text(type),
+                  child: Text(type, style: GoogleFonts.poppins()),
                 ))
             .toList(),
         onChanged: (value) {
@@ -271,7 +323,7 @@ class _CreateEventState extends State<CreateEvent> {
 
   Widget buildDateSelector(TextEditingController controller, String label) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(top: 16),
       child: GestureDetector(
         onTap: () async {
           DateTime? pickedDate = await showDatePicker(
@@ -280,7 +332,6 @@ class _CreateEventState extends State<CreateEvent> {
             firstDate: DateTime(2000),
             lastDate: DateTime(2100),
           );
-
           if (pickedDate != null) {
             controller.text =
                 "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
@@ -289,13 +340,16 @@ class _CreateEventState extends State<CreateEvent> {
         child: AbsorbPointer(
           child: TextField(
             controller: controller,
+            style: GoogleFonts.poppins(),
             decoration: InputDecoration(
               labelText: label,
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-              fillColor: const Color.fromARGB(62, 238, 238, 238),
+              labelStyle: GoogleFonts.poppins(color: Colors.grey[600]),
               filled: true,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+              fillColor: Colors.grey[100],
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide.none,
+              ),
             ),
           ),
         ),
@@ -305,27 +359,28 @@ class _CreateEventState extends State<CreateEvent> {
 
   Widget buildTimeSelector(TextEditingController controller, String label) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(top: 16),
       child: GestureDetector(
         onTap: () async {
-          TimeOfDay? pickedTime = await showTimePicker(
-              context: context, initialTime: TimeOfDay.now());
+          TimeOfDay? pickedTime =
+              await showTimePicker(context: context, initialTime: TimeOfDay.now());
           if (pickedTime != null) {
-            String formattedTime = pickedTime.format(context);
-            controller.text = formattedTime;
+            controller.text = pickedTime.format(context);
           }
         },
         child: AbsorbPointer(
           child: TextField(
             controller: controller,
+            style: GoogleFonts.poppins(),
             decoration: InputDecoration(
               labelText: label,
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              fillColor: const Color.fromARGB(62, 238, 238, 238),
+              labelStyle: GoogleFonts.poppins(color: Colors.grey[600]),
               filled: true,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 10),
+              fillColor: Colors.grey[100],
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide.none,
+              ),
             ),
           ),
         ),
