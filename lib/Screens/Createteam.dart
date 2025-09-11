@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pixel/Screens/event.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
@@ -7,8 +8,7 @@ import 'package:uuid/uuid.dart';
 class UniqueCode extends StatefulWidget {
   final String email;
   final String hackathontitle;
-  const UniqueCode(
-      {super.key, required this.email, required this.hackathontitle});
+  const UniqueCode({super.key, required this.email, required this.hackathontitle});
 
   @override
   State<UniqueCode> createState() => _UniqueCodeState();
@@ -27,15 +27,14 @@ class _UniqueCodeState extends State<UniqueCode> {
   void _generateUniqueCode() {
     const uuid = Uuid();
     setState(() {
-      _uniqueCode = uuid.v4();
+      _uniqueCode = uuid.v4().substring(0, 8).toUpperCase(); // shorter & cleaner
     });
   }
 
   void _copytoClipboard() {
     Clipboard.setData(ClipboardData(text: _uniqueCode));
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-          content: Text('Unique code has been copied to your clipboard')),
+      const SnackBar(content: Text('✅ Code copied to clipboard!')),
     );
   }
 
@@ -43,8 +42,9 @@ class _UniqueCodeState extends State<UniqueCode> {
     final supabase = Supabase.instance.client;
     final teamname = _teamnamecontroller.text.trim();
     if (teamname.isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Teamname is required")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("⚠️ Team name is required")),
+      );
       return;
     }
     try {
@@ -63,22 +63,22 @@ class _UniqueCodeState extends State<UniqueCode> {
         'Members': [widget.email],
         'hackathon_id': hackathonid,
         'size': teamsize,
-        'Team_name':teamname
+        'Team_name': teamname,
       });
-      if (mounted){
+
+      if (mounted) {
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => Event_Screen(email: widget.email)));
-
+          MaterialPageRoute(builder: (context) => Event_Screen(email: widget.email)),
+        );
       }
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Team created successfully')),
+        const SnackBar(content: Text('🎉 Team created successfully')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error:${e.toString()}')),
+        SnackBar(content: Text('❌ Error: ${e.toString()}')),
       );
     }
   }
@@ -86,80 +86,122 @@ class _UniqueCodeState extends State<UniqueCode> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text("Create Team",
+            style: GoogleFonts.poppins(
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+            )),
         backgroundColor: Colors.white,
-        appBar:
-            AppBar(backgroundColor: Colors.white, title: Text('Create Team')),
-        body: Center(
-            child: Padding(
-          padding: const EdgeInsets.all(16.0),
+        elevation: 0,
+        centerTitle: true,
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              
-              Text("Unique Team code",style: TextStyle(fontSize: 30),),
-              SizedBox(
-                height: 20,
-              ),
               Text(
-                _uniqueCode,
-                style: TextStyle(fontSize: 20),
+                "Your Unique Team Code",
+                style: GoogleFonts.poppins(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
-                height: 20,
-              ),TextField(
+              const SizedBox(height: 20),
+
+              // Code Card
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: Text(
+                    _uniqueCode,
+                    style: GoogleFonts.poppins(
+                      fontSize: 26,
+                      color: Colors.white,
+                      letterSpacing: 2,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 25),
+
+              // Team name input
+              TextField(
                 controller: _teamnamecontroller,
                 decoration: InputDecoration(
                   labelText: 'Enter your team name',
-                  border: OutlineInputBorder(),
+                  labelStyle: const TextStyle(color: Colors.black54),
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 ),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 25),
+
+              // Buttons
               SizedBox(
+                width: double.infinity,
                 height: 50,
-                width: 600,
                 child: ElevatedButton(
                   onPressed: _generateUniqueCode,
-                  child: Text(
-                    'New Code',
-                    style: TextStyle(color: Colors.white),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.black),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)))),
+                  child: const Text("Generate New Code",
+                      style: TextStyle(color: Colors.white, fontSize: 16)),
                 ),
               ),
+              const SizedBox(height: 14),
+
               SizedBox(
-                height: 20,
-              ),
-              SizedBox(
+                width: double.infinity,
                 height: 50,
-                width: 600,
                 child: ElevatedButton(
                   onPressed: _copytoClipboard,
-                  child: Text(
-                    "Copy Code",
-                    style: TextStyle(color: Colors.white),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black,
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.black),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)))),
+                  child: const Text("Copy Code", style: TextStyle(fontSize: 16)),
                 ),
               ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _createTeam,
-                child: const Text('Create Team',
-                    style: TextStyle(color: Colors.white)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
+              const SizedBox(height: 14),
+
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: _createTeam,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green.shade600,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  child: const Text("Create Team",
+                      style: TextStyle(color: Colors.white, fontSize: 16)),
                 ),
-              )
+              ),
             ],
           ),
-        )));
+        ),
+      ),
+    );
   }
 }
