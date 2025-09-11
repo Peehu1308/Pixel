@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:amplify_flutter/amplify_flutter.dart' hide AuthException;
-import 'package:pixel/Check/blank.dart';
-import 'package:pixel/Screens/Desc.dart';
-import 'package:pixel/Screens/Home_Screen.dart';
 import 'package:pixel/Screens/Sign_up.dart';
-import 'package:pixel/Screens/feedback.dart';
 import 'package:pixel/admin/Admin_home.dart';
-// import 'package:pixel/Screens/main.dart';
 import 'package:pixel/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -30,20 +25,17 @@ class _LoginScreenState extends State<LoginScreen> {
         .select('admin_email')
         .eq('admin_email', email)
         .maybeSingle();
-
-    if (response != null) {
-      return true;
-    } else {
-      return false;
-    }
+    return response != null;
   }
 
   Future<void> handleLogin() async {
     if (!Amplify.isConfigured) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Amplify is not ready ")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("⚠️ Amplify is not ready")),
+      );
       return;
     }
+
     setState(() => isLoading = true);
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
@@ -60,39 +52,28 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (result.isSignedIn) {
-        bool isadmin = await checkadmin(email);
+        final isadmin = await checkadmin(email);
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Login Successful!")),
+          const SnackBar(content: Text("✅ Login Successful!")),
         );
 
-        //
+        if (!mounted) return;
+
         if (isadmin) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Login successful!")),
-          );
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => AdminHome(email: email)
-                // Home_Screen(email: email)
-                ),
+            MaterialPageRoute(builder: (_) => AdminHome(email: email)),
           );
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Login successful!")),
-          );
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => MainScreen(email: email)
-                // Home_Screen(email: email)
-                ),
+            MaterialPageRoute(builder: (_) => MainScreen(email: email)),
           );
         }
-
-        //
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Login failed. Check credentials.")),
+          const SnackBar(content: Text("❌ Login failed. Check credentials.")),
         );
       }
     } on AuthException catch (e) {
@@ -115,93 +96,148 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  Widget _buildInputField(
+      TextEditingController controller, String label, IconData icon,
+      {bool obscure = false}) {
+    return TextField(
+      controller: controller,
+      obscureText: obscure,
+      style: GoogleFonts.poppins(),
+      decoration: InputDecoration(
+        prefixIcon: Icon(icon, color: Colors.black54),
+        labelText: label,
+        labelStyle: GoogleFonts.poppins(color: Colors.black54),
+        filled: true,
+        fillColor: Colors.grey.shade100,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(25.0),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 100),
-              Text(
-                "Pixel",
-                style: GoogleFonts.recursive(
-                  fontSize: 60,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "Login",
-                style: GoogleFonts.recursive(
-                  fontSize: 18,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-              const SizedBox(height: 40),
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Scrollable content
+            Expanded(
+              child: SingleChildScrollView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 40),
 
-              // Email
-              SizedBox(
-                width: 300,
-                child: TextField(
-                  controller: emailController,
-                  decoration: const InputDecoration(
-                    labelText: "Bennett Email",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // Password
-              SizedBox(
-                width: 300,
-                child: TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: "Password",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              isLoading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: handleLogin,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        minimumSize: const Size(300, 50),
-                      ),
-                      child: const Text(
-                        "Login",
-                        style: TextStyle(color: Colors.white),
+                    // Branding
+                    Text(
+                      "Pixel",
+                      style: GoogleFonts.recursive(
+                        fontSize: 52,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
-              const SizedBox(height: 20),
+                    const SizedBox(height: 8),
+                    Text(
+                      "Login to your account",
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
 
-              // Feedback message
-              Text(
-                message,
-                style: const TextStyle(color: Colors.red),
-              ),
+                    // Email
+                    _buildInputField(emailController, "Bennett Email", Icons.email),
+                    const SizedBox(height: 18),
 
-              // Signup link
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              SignUpScreen())); // Or push to signup screen
-                },
-                child: const Text("Don't have an account? Sign up here"),
+                    // Password
+                    _buildInputField(passwordController, "Password", Icons.lock,
+                        obscure: true),
+                    const SizedBox(height: 30),
+
+                    // Login Button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 52,
+                      child: ElevatedButton(
+                        onPressed: isLoading ? null : handleLogin,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: isLoading
+                            ? const SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Text(
+                                "Login",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Error message
+                    if (message.isNotEmpty)
+                      Text(
+                        message,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                  ],
+                ),
               ),
-            ],
-          ),
+            ),
+
+            // Signup link fixed at bottom
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Don't have an account?",
+                      style: GoogleFonts.poppins(color: Colors.black87)),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                      );
+                    },
+                    child: Text(
+                      "Sign up here",
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w600,
+                        decoration: TextDecoration.underline,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
