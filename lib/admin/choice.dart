@@ -136,7 +136,7 @@ class _Choice_AdminState extends State<Choice_Admin> {
                   context,
                   MaterialPageRoute(
                     builder: (_) =>
-                        AddingFrames(email: widget.email),
+                        AddingHighlights(email: widget.email),
                   ),
                 );
               },

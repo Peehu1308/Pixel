@@ -24,7 +24,7 @@ class _ClubDataState extends State<ClubData> {
   int selectedIndex = 0;
   List<dynamic> members = [];
 
-  final List<String> options = ["Active Users", "Past Events"];
+  final List<String> options = ["Active Members", "Live Events","Past Events"];
 
   @override
   void initState() {
@@ -180,12 +180,14 @@ class _ClubDataState extends State<ClubData> {
               borderRadius: BorderRadius.circular(30),
               borderColor: Colors.white70,
               selectedBorderColor: Colors.transparent,
+              
               fillColor: Colors.white,
               color: Colors.white70,
               selectedColor: Colors.black,
               constraints: const BoxConstraints(
                 minHeight: 40,
-                minWidth: 100,
+                minWidth: 120,
+                
               ),
               children: options.map((text) => Text(text)).toList(),
             ),
@@ -205,7 +207,7 @@ class _ClubDataState extends State<ClubData> {
                           ),
                         )
                       : Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(4.0),
                         child: ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -214,11 +216,28 @@ class _ClubDataState extends State<ClubData> {
                             final member = members[index].toString().trim();
                             return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4),
-                              child: Text(
-                                member,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[800],
+                                  borderRadius: BorderRadius.circular(3),
+                                  
+                                  
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 2,
+                                  horizontal:7,
+                                ),
+                                alignment: Alignment.centerLeft,
+                                height: 40,
+                                  width:20,
+                                child: Text(
+                                  member,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    
+                                    fontSize: 16,
+                                  ),
+                                  
                                 ),
                               ),
                             );
@@ -228,8 +247,22 @@ class _ClubDataState extends State<ClubData> {
 
                 ],
               )
-            ]
+            ] 
             else if(selectedIndex==1)...[
+              Column(
+                children: [
+                  const Center(
+                    child: Text(
+                      "No live events",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
+              )
+            ]
+
+
+            else if(selectedIndex==2)...[
               Column(
                 children: [
                   const Center(

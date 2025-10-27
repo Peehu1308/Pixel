@@ -2,22 +2,54 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pixel/utils/encrypt.dart';
 import 'package:pixel/admin/adminevent.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AddingHighlights extends StatefulWidget {
+class AddingFrames extends StatefulWidget {
   final String email;
-  const AddingHighlights({super.key, required this.email});
+  const AddingFrames({super.key, required this.email});
 
   @override
-  State<AddingHighlights> createState() => _AddingHighlightsState();
+  State<AddingFrames> createState() => _AddingFramesState();
 }
 
-class _AddingHighlightsState extends State<AddingHighlights> {
-  final clubcontroller = TextEditingController();
+class _AddingFramesState extends State<AddingFrames> {
   File? _image;
   bool _isLoading = false;
+  String? _username;
+  final cryto = CryptoHelper();
 
+  @override
+  void initState() {
+    super.initState();
+    getName(); // fetch username on load
+  }
+
+  /// Get Name from Users table
+  Future<void> getName() async {
+    final supabase = Supabase.instance.client;
+    final emailToUse = widget.email.trim();
+
+    try {
+      final userResponse = await supabase
+          .from('Users')
+          .select('Name')
+          .eq('Email', emailToUse)
+          .single();
+
+      setState(() {
+        _username = cryto.decryptText(userResponse['Name']) ?? 'Anonymous';
+      });
+    } catch (e) {
+      print("❌ Failed to fetch user name: $e");
+      setState(() {
+        _username = 'Anonymous';
+      });
+    }
+  }
+
+  /// Pick image from gallery
   Future<void> pickImage() async {
     final picker = ImagePicker();
     final image = await picker.pickImage(source: ImageSource.gallery);
@@ -29,6 +61,7 @@ class _AddingHighlightsState extends State<AddingHighlights> {
     }
   }
 
+  /// Upload image to Supabase Storage
   Future<String?> uploadImage() async {
     if (_image == null) return null;
 
@@ -50,14 +83,20 @@ class _AddingHighlightsState extends State<AddingHighlights> {
     }
   }
 
+  /// Save data to frames table
   Future<void> saveData() async {
     final supabase = Supabase.instance.client;
-    final emailToUse = widget.email.trim();
-    final clubName = clubcontroller.text.trim().toUpperCase();
 
-    if (clubName.isEmpty) {
+    if (_username == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please enter the club name")),
+        const SnackBar(content: Text("User not loaded yet")),
+      );
+      return;
+    }
+
+    if (_image == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please select an image")),
       );
       return;
     }
@@ -67,43 +106,22 @@ class _AddingHighlightsState extends State<AddingHighlights> {
     });
 
     try {
-      final updates = {
-        'admin_email': emailToUse,
-        'club_name': clubName,
-      };
-      print("Saving data: $updates");
-
-      await supabase
-          .from('Highlights')
-          .upsert(updates, onConflict: 'admin_email')
-          .select();
-
-      // Step 1: Get existing images
-      final existingData = await supabase
-          .from('Highlights')
-          .select('images')
-          .eq('admin_email', emailToUse)
-          .maybeSingle();
-
-      List<dynamic> existingImages = existingData?['images'] ?? [];
-
-      // Step 2: Upload new image
+      // Upload image
       String? newImageUrl = await uploadImage();
 
-      // Step 3: Append and update array
-      if (newImageUrl != null) {
-        existingImages.add(newImageUrl);
+      if (newImageUrl == null) return;
 
-        await supabase
-            .from('Highlights')
-            .update({'images': existingImages})
-            .eq('admin_email', emailToUse)
-            .select();
-        print("✅ Image URL updated in database with multiple images");
-      }
+      // Insert into frames table
+      final updates = {
+        'user': _username,
+        'Images': [newImageUrl], // array of images
+        'likes': 0,
+      };
+
+      await supabase.from('frames').insert(updates);
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Profile saved successfully")),
+        const SnackBar(content: Text("Frame added successfully")),
       );
 
       if (mounted) {
@@ -117,7 +135,7 @@ class _AddingHighlightsState extends State<AddingHighlights> {
     } catch (e) {
       print("❌ Save failed: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error saving profile: $e")),
+        SnackBar(content: Text("Error saving frame: $e")),
       );
     } finally {
       setState(() {
@@ -149,7 +167,7 @@ class _AddingHighlightsState extends State<AddingHighlights> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Profile Image
+              // Profile Image Picker
               GestureDetector(
                 onTap: _isLoading ? null : pickImage,
                 child: Container(
@@ -180,12 +198,7 @@ class _AddingHighlightsState extends State<AddingHighlights> {
               ),
               const SizedBox(height: 24),
 
-              // Club name field
-              buildInputField(clubcontroller, 'Enter your Club name'),
-
-              const SizedBox(height: 24),
-
-              // Next button
+              // Done button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -213,28 +226,6 @@ class _AddingHighlightsState extends State<AddingHighlights> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget buildInputField(TextEditingController controller, String label) {
-    return TextField(
-      controller: controller,
-      style: GoogleFonts.poppins(fontSize: 15),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: GoogleFonts.poppins(
-          color: Colors.black54,
-          fontSize: 14,
-        ),
-        filled: true,
-        fillColor: Colors.grey.shade100,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
     );
   }

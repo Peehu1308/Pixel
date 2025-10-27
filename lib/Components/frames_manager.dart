@@ -1,3 +1,5 @@
+import 'package:pixel/utils/encrypt.dart';
+
 class FramesModel {
   final String imagePath;
   final String label;
@@ -11,6 +13,7 @@ class FramesModel {
 
   factory FramesModel.fromJson(Map<String, dynamic> json) {
     final List<dynamic> images = json['Images'] ?? [];
+    final cryto = CryptoHelper();
 
     final List<String> paths = images
         .map((e) => e.toString())
@@ -20,9 +23,11 @@ class FramesModel {
             url.startsWith('http'))
         .toList();
 
+    final String decryptedUser = cryto.decryptText(json['user']) ?? 'Unknown';
+
     return FramesModel(
       imagePath: paths.isNotEmpty ? paths[0] : '',
-      label: json['user'],
+      label: decryptedUser,
       storyImage: paths,
     );
   }

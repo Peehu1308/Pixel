@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pixel/Components/Frames_add.dart';
 import 'package:pixel/Components/comment_update.dart';
 import 'package:pixel/Components/commentbox.dart';
 import 'package:pixel/Components/frames.dart';
@@ -52,6 +53,9 @@ class _FriendsScreenState extends State<FriendsScreen> {
         profileImage = response['Image'] ?? '';
       });
     }
+  }
+  Future<void>addframes()async{
+
   }
 
   @override
@@ -139,6 +143,16 @@ class _FriendsScreenState extends State<FriendsScreen> {
                       },
                     ),
                   ),
+                  ElevatedButton(onPressed: (){
+                    Navigator.push(context,MaterialPageRoute(builder: (_)=>AddingFrames(email: widget.email)));
+                  }, child:Text("Add Frames",style:TextStyle(color: Colors.white),),
+                  style: ElevatedButton.styleFrom(
+                    // backgroundColor: const Color.fromARGB(255, 201, 73, 223),
+                    backgroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),),
                   // const SizedBox(height: 12),
                   Text(
                     'Specs',
