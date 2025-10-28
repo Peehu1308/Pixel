@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixel/Components/chatbox_club.dart';
+import 'package:pixel/Components/eventsbox_small.dart';
+// import 'package:pixel/Components/eventsbox_small.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ClubData extends StatefulWidget {
@@ -23,14 +25,44 @@ class ClubData extends StatefulWidget {
 class _ClubDataState extends State<ClubData> {
   int selectedIndex = 0;
   List<dynamic> members = [];
+  List<dynamic> project = [];
 
-  final List<String> options = ["Active Members", "Live Events","Past Events"];
+  final List<String> options = ["Active Members", "Live Events", "Past Events"];
 
   @override
   void initState() {
     super.initState();
     fetchMembers();
+    // fetchliveevents();
   }
+
+// Future<void> fetchliveevents() async {
+//   try {
+//     final data = await Supabase.instance.client
+//         .from('Projects')
+
+//         .select(
+//           'project_title, project_description, club_id'
+//         )
+//         .eq('club_id', int.parse(widget.clubId)); // ✅ ensures correct filter type
+
+//     print('Fetched projects for club ${widget.clubId}: $data');
+//     print('Projects response: $data');
+// print('Project count: ${data.length}');
+
+
+//     if (data.isEmpty) {
+//       print('No projects found for this club.');
+//     } else {
+//       setState(() {
+//         project = data;
+//       });
+//     }
+//   } catch (error, stack) {
+//     print('Error fetching projects: $error');
+//     print(stack);
+//   }
+// }
 
   Future<void> fetchMembers() async {
     final response = await Supabase.instance.client
@@ -149,10 +181,13 @@ class _ClubDataState extends State<ClubData> {
                       const SizedBox(width: 20),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (_) => ChatBoxClub(
-                            clubname: widget.clubName,
-                            image: widget.imageUrl,
-                          )));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => ChatBoxClub(
+                                        clubname: widget.clubName,
+                                        image: widget.imageUrl,
+                                      )));
                         },
                         child: const Text(
                           "Join Chat",
@@ -180,14 +215,12 @@ class _ClubDataState extends State<ClubData> {
               borderRadius: BorderRadius.circular(30),
               borderColor: Colors.white70,
               selectedBorderColor: Colors.transparent,
-              
               fillColor: Colors.white,
               color: Colors.white70,
               selectedColor: Colors.black,
               constraints: const BoxConstraints(
                 minHeight: 40,
                 minWidth: 120,
-                
               ),
               children: options.map((text) => Text(text)).toList(),
             ),
@@ -196,7 +229,7 @@ class _ClubDataState extends State<ClubData> {
               height: 20,
             ),
 
-            if (selectedIndex == 0)...[
+            if (selectedIndex == 0) ...[
               Column(
                 children: [
                   members.isEmpty
@@ -207,64 +240,59 @@ class _ClubDataState extends State<ClubData> {
                           ),
                         )
                       : Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: members.length,
-                          itemBuilder: (context, index) {
-                            final member = members[index].toString().trim();
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[800],
-                                  borderRadius: BorderRadius.circular(3),
-                                  
-                                  
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 2,
-                                  horizontal:7,
-                                ),
-                                alignment: Alignment.centerLeft,
-                                height: 40,
-                                  width:20,
-                                child: Text(
-                                  member,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    
-                                    fontSize: 16,
+                          padding: const EdgeInsets.all(4.0),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: members.length,
+                            itemBuilder: (context, index) {
+                              final member = members[index].toString().trim();
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 4),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[800],
+                                    borderRadius: BorderRadius.circular(3),
                                   ),
-                                  
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 2,
+                                    horizontal: 7,
+                                  ),
+                                  alignment: Alignment.centerLeft,
+                                  height: 40,
+                                  width: 20,
+                                  child: Text(
+                                    member,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-                      )
+                              );
+                            },
+                          ),
+                        )
+                ],
+              )
+            ] else if (selectedIndex == 1) ...[
+              Column(
+                children: [
+
+                  Column(
+        children: [
+          
+            EventsboxSmall(clubId: int.parse(widget.clubId))
+        ],
+      )
 
                 ],
               )
-            ] 
-            else if(selectedIndex==1)...[
+            ] else if (selectedIndex == 2) ...[
               Column(
                 children: [
-                  const Center(
-                    child: Text(
-                      "No live events",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )
-                ],
-              )
-            ]
-
-
-            else if(selectedIndex==2)...[
-              Column(
-                children: [
+                  
                   const Center(
                     child: Text(
                       "No past events",
