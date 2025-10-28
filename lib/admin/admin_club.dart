@@ -128,12 +128,12 @@ class _Clubs_Screen_AdminState extends State<Clubs_Screen_Admin> {
                         itemBuilder: (context, index) {
                           final club = clubs[index];
                           return ClubBoxNew(
-                            imageUrl: club['Image_url'] ?? '',
-                            description: club['Club_description'] ?? '',
-                            clubname: club['Club_name'] ?? '',
-                            clubId: club['id'].toString(),
+  imageUrl: club['Image_url'] ?? '',
+  description: club['Club_description'] ?? '',
+  clubname: club['Club_name'] ?? '',
+  clubId: int.tryParse(club['id'].toString()) ?? 0, // ✅ safe cast
+);
 
-                          );
                         })
               ],
             )

@@ -77,7 +77,7 @@ class _EventsboxSmallState extends State<EventsboxSmall> {
                 decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.white24, width: 1),
+                  border: Border.all(color: Colors.white, width: 1),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.white.withOpacity(0.05),
@@ -220,8 +220,8 @@ class _EventsboxSmallState extends State<EventsboxSmall> {
       onPressed: () {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('$text selected!'),
-            backgroundColor: Colors.white,
+            content: Text('$text selected!',style: TextStyle(color: Colors.white),),
+            backgroundColor: Colors.black,
             behavior: SnackBarBehavior.floating,
             margin: const EdgeInsets.all(16),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

@@ -130,7 +130,7 @@ class _Clubs_ScreenState extends State<Clubs_Screen> {
                             imageUrl: club['Image_url'] ?? '',
                             description: club['Club_description'] ?? '',
                             clubname: club['Club_name'] ?? '',
-                            clubId: club['id'].toString(),
+                            clubId: club['id'],
 
                           );
                         })

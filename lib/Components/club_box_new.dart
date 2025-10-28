@@ -5,7 +5,7 @@ class ClubBoxNew extends StatelessWidget {
   final String clubname;
   final String imageUrl;
   final String description;
-  final String clubId;
+  final int clubId;
 
   const ClubBoxNew({
     super.key,

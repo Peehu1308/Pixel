@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pixel/Components/chatbox_club.dart';
 import 'package:pixel/Components/eventsbox_small.dart';
+import 'package:pixel/Screens/showcase_box.dart';
 // import 'package:pixel/Components/eventsbox_small.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ClubData extends StatefulWidget {
-  final String clubId;
+  final int clubId;
   final String clubName;
   final String imageUrl;
   final String description_club;
@@ -75,6 +76,8 @@ class _ClubDataState extends State<ClubData> {
         members = response[0]['members'] ?? [];
       });
     }
+    print('DEBUG ClubData.clubId type = ${widget.clubId.runtimeType}');
+
   }
 
   @override
@@ -283,7 +286,8 @@ class _ClubDataState extends State<ClubData> {
                   Column(
         children: [
           
-            EventsboxSmall(clubId: int.parse(widget.clubId))
+            // EventsboxSmall(clubId: int.parse(widget.clubId))
+            ShowcaseBox(clubId:widget.clubId)
         ],
       )
 
