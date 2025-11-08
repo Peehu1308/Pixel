@@ -105,20 +105,21 @@ class _Clubs_ScreenState extends State<Clubs_Screen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                "Find your community",
-                style: GoogleFonts.recursive(
+                "Discover your space",
+                style: TextStyle(
                   fontSize: 26,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w400,
+                  fontStyle: FontStyle.italic,
                   color: Colors.black,
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
             Column(
               children: [
                 clubs.isEmpty
                     ? const Center(
-                        child: Text("loading"),
+                        child: Text("Loading..."),
                       )
                     : ListView.builder(
                         shrinkWrap: true,

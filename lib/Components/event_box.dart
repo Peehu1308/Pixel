@@ -203,14 +203,14 @@ class _EventCardState extends State<EventCard> {
           fontWeight: FontWeight.w500,
         ),
       ),
-      Text(
-        '50 Seats left!',
-        style: const TextStyle(
-          fontSize: 10,
-          color: Color.fromARGB(255, 245, 5, 5),
-          fontWeight: FontWeight.w500,
-        ),
-      ),
+      // Text(
+      //   'Stop by!',
+      //   style: const TextStyle(
+      //     fontSize: 10,
+      //     color: Color.fromARGB(255, 245, 5, 5),
+      //     fontWeight: FontWeight.w900,
+      //   ),
+      // ),
     ],
   ),
 ),
