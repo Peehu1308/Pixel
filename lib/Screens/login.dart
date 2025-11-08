@@ -341,20 +341,28 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   /// Simple early access login (before Nov 20, 2025)
-  Future<void> handleEarlyAccessLogin() async {
-    final enrollment = enrollmentController.text.trim();
+Future<void> handleEarlyAccessLogin() async {
+  final enrollment = enrollmentController.text.trim();
 
-    if (enrollment.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("⚠️ Please enter your enrollment number")),
-      );
-      return;
-    }
+  if (enrollment.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("⚠️ Please enter your enrollment number")),
+    );
+    return;
+  }
 
-    setState(() => isLoading = true);
+  setState(() => isLoading = true);
 
-    try {
-      // Store in Supabase (table: early_access)
+  try {
+    // Check if the email already exists in the Users table
+    final existingUser = await Supabase.instance.client
+        .from('Users')
+        .select('Email')
+        .eq('Email', enrollment)
+        .maybeSingle();
+
+    if (existingUser == null) {
+      // Insert only if not present
       await Supabase.instance.client.from('Users').insert({
         'Email': enrollment,
         'created_at': DateTime.now().toIso8601String(),
@@ -363,22 +371,28 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("✅ Enrollment saved! Welcome.")),
       );
-
-      if (!mounted) return;
-
-      // Navigate to main page
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => MainScreen(email: enrollment)),
-      );
-    } catch (e) {
+    } else {
+      // Allow entry if already exists
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error saving enrollment: $e")),
+        const SnackBar(content: Text("✅ Welcome back!")),
       );
-    } finally {
-      setState(() => isLoading = false);
     }
+
+    if (!mounted) return;
+
+    // Navigate to main page in both cases
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => MainScreen(email: enrollment)),
+    );
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Error saving enrollment: $e")),
+    );
+  } finally {
+    setState(() => isLoading = false);
   }
+}
 
   @override
   void dispose() {
