@@ -316,33 +316,34 @@ class _Home_ScreenState extends State<Home_Screen> {
         ),
         backgroundColor: Colors.white,
         actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 20),
-            child: GestureDetector(
-              onTap: () {
-                if (widget.email.isNotEmpty) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Profile(email: widget.email)),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content:
-                            Text("You need to be logged in to view profile")),
-                  );
-                }
-              },
-              child: CircleAvatar(
-                radius: 20,
-                backgroundImage: profileImage.isNotEmpty
-                    ? NetworkImage(profileImage)
-                    : const AssetImage("lib/assets/profile.jpeg")
-                        as ImageProvider,
-              ),
-            ),
-          )
+          // Container(
+          //   margin: const EdgeInsets.only(right: 20),
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       if (widget.email.isNotEmpty) {
+          //         Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //               builder: (context) => Profile(email: widget.email)),
+          //         );
+          //       } else {
+          //         ScaffoldMessenger.of(context).showSnackBar(
+          //           const SnackBar(
+          //               content:
+          //                   Text("You need to be logged in to view profile")),
+          //         );
+          //       }
+          //     },
+          //     child: CircleAvatar(
+          //       radius: 20,
+          //       backgroundImage: profileImage.isNotEmpty
+          //           ? NetworkImage(profileImage)
+          //           : const AssetImage("lib/assets/profile.jpeg")
+          //               as ImageProvider,
+          //     ),
+          //   ),
+          // )
+        
         ],
         automaticallyImplyLeading: false,
       ),
@@ -529,11 +530,16 @@ class _Home_ScreenState extends State<Home_Screen> {
   }
 
   Widget EventscrollView(List<Widget> cards) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 1.0, vertical: 8.0),
-        child: Row(children: cards),
+    return Align(
+      alignment: AlignmentGeometry.centerLeft,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 1.0, vertical: 8.0),
+          
+          child: Row(children: cards),
+        ),
       ),
     );
   }

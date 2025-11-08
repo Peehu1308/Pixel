@@ -66,35 +66,35 @@ class _Clubs_ScreenState extends State<Clubs_Screen> {
           ),
           backgroundColor: Colors.white,
           actions: [
-            Container(
-              margin: const EdgeInsets.only(right: 20),
-              child: GestureDetector(
-                onTap: () {
-                  if (widget.email.isNotEmpty) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Profile(email: widget.email),
-                      ),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content:
-                            Text("You need to be logged in to view profile"),
-                      ),
-                    );
-                  }
-                },
-                child: CircleAvatar(
-                  radius: 20,
-                  backgroundImage: profileImage.isNotEmpty
-                      ? NetworkImage(profileImage)
-                      : const AssetImage("lib/assets/profile.jpeg")
-                          as ImageProvider,
-                ),
-              ),
-            ),
+            // Container(
+            //   margin: const EdgeInsets.only(right: 20),
+            //   child: GestureDetector(
+            //     onTap: () {
+            //       if (widget.email.isNotEmpty) {
+            //         Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //             builder: (context) => Profile(email: widget.email),
+            //           ),
+            //         );
+            //       } else {
+            //         ScaffoldMessenger.of(context).showSnackBar(
+            //           const SnackBar(
+            //             content:
+            //                 Text("You need to be logged in to view profile"),
+            //           ),
+            //         );
+            //       }
+            //     },
+            //     child: CircleAvatar(
+            //       radius: 20,
+            //       backgroundImage: profileImage.isNotEmpty
+            //           ? NetworkImage(profileImage)
+            //           : const AssetImage("lib/assets/profile.jpeg")
+            //               as ImageProvider,
+            //     ),
+            //   ),
+            // ),
           ],
           automaticallyImplyLeading: false),
       body: SingleChildScrollView(
