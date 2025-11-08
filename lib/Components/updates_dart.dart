@@ -20,14 +20,14 @@ class _UpdatesBox_DataState extends State<UpdatesBox_Data> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.transparent,
       body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width * 0.92,
           margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: Colors.grey[900],
+            color: Colors.black,
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
@@ -52,7 +52,7 @@ class _UpdatesBox_DataState extends State<UpdatesBox_Data> {
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) => Icon(
                         Icons.image_not_supported,
-                        color: Colors.white54,
+                        color: Colors.white,
                         size: 40,
                       ),
                     ),

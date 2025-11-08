@@ -142,18 +142,18 @@ class _PersonalState extends State<Personal> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                width: 150,
-                height: 150,
-                decoration: const BoxDecoration(shape: BoxShape.circle),
-                child: ClipOval(
-                  child: _image != null
-                      ? Image.file(_image!,
-                          fit: BoxFit.cover, width: 150, height: 150)
-                      : Image.asset("lib/assets/profile.jpeg",
-                          fit: BoxFit.cover, width: 150, height: 150),
-                ),
-              ),
+              // Container(
+              //   width: 150,
+              //   height: 150,
+              //   decoration: const BoxDecoration(shape: BoxShape.circle),
+              //   child: ClipOval(
+              //     child: _image != null
+              //         ? Image.file(_image!,
+              //             fit: BoxFit.cover, width: 150, height: 150)
+              //         : Image.asset("lib/assets/profile.jpeg",
+              //             fit: BoxFit.cover, width: 150, height: 150),
+              //   ),
+              // ),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: pickImage,

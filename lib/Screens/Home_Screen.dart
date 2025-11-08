@@ -316,71 +316,72 @@ class _Home_ScreenState extends State<Home_Screen> {
         ),
         backgroundColor: Colors.white,
         actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 20),
-            child: GestureDetector(
-              onTap: () {
-                if (widget.email.isNotEmpty) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Profile(email: widget.email)),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content:
-                            Text("You need to be logged in to view profile")),
-                  );
-                }
-              },
-              child: CircleAvatar(
-                radius: 20,
-                backgroundImage: profileImage.isNotEmpty
-                    ? NetworkImage(profileImage)
-                    : const AssetImage("lib/assets/profile.jpeg")
-                        as ImageProvider,
-              ),
-            ),
-          )
+          // Container(
+          //   margin: const EdgeInsets.only(right: 20),
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       if (widget.email.isNotEmpty) {
+          //         Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //               builder: (context) => Profile(email: widget.email)),
+          //         );
+          //       } else {
+          //         ScaffoldMessenger.of(context).showSnackBar(
+          //           const SnackBar(
+          //               content:
+          //                   Text("You need to be logged in to view profile")),
+          //         );
+          //       }
+          //     },
+          //     child: CircleAvatar(
+          //       radius: 20,
+          //       backgroundImage: profileImage.isNotEmpty
+          //           ? NetworkImage(profileImage)
+          //           : const AssetImage("lib/assets/profile.jpeg")
+          //               as ImageProvider,
+          //     ),
+          //   ),
+          // )
+        
         ],
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                border: Border.all(color: Colors.black, width: 1),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: '',
-                  prefixIcon: IconButton(
-                    icon: const Icon(Icons.menu),
-                    onPressed: () => _showHalfDialog(context),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: () {
-                      final query = _searchController.text.trim();
-                      if (query.isNotEmpty) {
-                        // Optionally handle search logic
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("Searching for '\$query'...")),
-                        );
-                      }
-                    },
-                  ),
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                ),
-              ),
-            ),
+            // Container(
+            //   margin: const EdgeInsets.all(10),
+            //   decoration: BoxDecoration(
+            //     color: Colors.grey[200],
+            //     border: Border.all(color: Colors.black, width: 1),
+            //     borderRadius: BorderRadius.circular(20),
+            //   ),
+            //   child: TextField(
+            //     controller: _searchController,
+            //     decoration: InputDecoration(
+            //       hintText: '',
+            //       prefixIcon: IconButton(
+            //         icon: const Icon(Icons.menu),
+            //         onPressed: () => _showHalfDialog(context),
+            //       ),
+            //       suffixIcon: IconButton(
+            //         icon: const Icon(Icons.search),
+            //         onPressed: () {
+            //           final query = _searchController.text.trim();
+            //           if (query.isNotEmpty) {
+            //             // Optionally handle search logic
+            //             ScaffoldMessenger.of(context).showSnackBar(
+            //               SnackBar(content: Text("Searching for '\$query'...")),
+            //             );
+            //           }
+            //         },
+            //       ),
+            //       border: InputBorder.none,
+            //       contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: SizedBox(
@@ -402,7 +403,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                           //   style: GoogleFonts.recursive(
                           //       fontSize: 21, color: Colors.white),
                           // ),
-                          Text("Connect with your community and join exciting hackathons ,workshops, and more!",
+                          Text("Pitch bold, ideate big, and build your venture buzz — Bennovate 2025 is where ideas ignite and startups take flight!",
                               style: GoogleFonts.recursive(
                                   fontSize: 14, color: Colors.white)),
 
@@ -529,11 +530,16 @@ class _Home_ScreenState extends State<Home_Screen> {
   }
 
   Widget EventscrollView(List<Widget> cards) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 1.0, vertical: 8.0),
-        child: Row(children: cards),
+    return Align(
+      alignment: AlignmentGeometry.centerLeft,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 1.0, vertical: 8.0),
+          
+          child: Row(children: cards),
+        ),
       ),
     );
   }
