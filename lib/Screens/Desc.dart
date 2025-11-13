@@ -8,6 +8,7 @@ import 'package:pixel/Screens/Createteam.dart';
 import 'package:pixel/Screens/Jointeam.dart';
 import 'package:pixel/Screens/event_home.dart';
 import 'package:pixel/Screens/recommendation.dart';
+import 'package:pixel/Screens/stallmap.dart';
 import 'package:share_plus/share_plus.dart';
 
 class Description_Screen extends StatelessWidget {
@@ -78,6 +79,23 @@ class Description_Screen extends StatelessWidget {
         ),
         backgroundColor: Colors.black,
       ),
+
+      // ✅ Only show the floating location button when title is NOT "Ideathon"
+      floatingActionButton: title.toLowerCase() != "ideathon"
+          ? FloatingActionButton(
+              backgroundColor: Colors.redAccent,
+              tooltip: "View Stall Map",
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => StallMapScreen()),
+                );
+              },
+              child:
+                  const Icon(Icons.location_on_outlined, color: Colors.white),
+            )
+          : null,
+
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -120,8 +138,21 @@ class Description_Screen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.calendar_today,
-                              size: 18, color: Colors.white70),
+                          GestureDetector(
+                            child: const Icon(
+                              Icons.calendar_today,
+                              size: 18,
+                              color: Colors.white70,
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => StallMapScreen(),
+                                ),
+                              );
+                            },
+                          ),
                           const SizedBox(width: 6),
                           Text(
                             "$date  |  $time",

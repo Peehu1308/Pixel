@@ -82,7 +82,7 @@
 //       );
 //     } catch (e) {
 //       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(content: Text("Unexpected error: $e")),
+//         SnackBar(content: Text("Unexpected error: ")),
 //       );
 //     } finally {
 //       setState(() => isLoading = false);
@@ -333,7 +333,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Unexpected error: $e")),
+        SnackBar(content: Text("Unexpected error: ")),
       );
     } finally {
       setState(() => isLoading = false);
@@ -387,7 +387,7 @@ Future<void> handleEarlyAccessLogin() async {
     );
   } catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Error saving enrollment: $e")),
+      SnackBar(content: Text("Error saving enrollment: ")),
     );
   } finally {
     setState(() => isLoading = false);

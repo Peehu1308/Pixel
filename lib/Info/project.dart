@@ -47,7 +47,7 @@ class _ProjectState extends State<Project> {
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error loading Project: $e")),
+        SnackBar(content: Text("Error loading Project")),
       );
     }
   }
@@ -87,9 +87,9 @@ class _ProjectState extends State<Project> {
         );
       }
     } catch (e) {
-      print("Error details: $e");
+      print("Error details");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error saving Projects: $e")),
+        SnackBar(content: Text("Error saving Projects")),
       );
     }
   }

@@ -102,7 +102,7 @@ class _Home_ScreenState extends State<Home_Screen> {
         );
       }
     } catch (e) {
-      print("Error: \$e");
+      print("Error");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Registration failed.")),
       );

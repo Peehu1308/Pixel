@@ -40,7 +40,7 @@ class _ShowcaseBoxState extends State<ShowcaseBox> {
       isLoading = false;
     });
   } catch (e) {
-    print('Error fetching events: $e');
+    print('Error fetching events');
     setState(() => isLoading = false);
   }
   print('DEBUG ShowcaseBox.clubId type = ${widget.clubId.runtimeType}');

@@ -79,7 +79,7 @@ class _Updates_ScreenState extends State<Updates_Screen> {
       List<dynamic> data = response as List<dynamic>;
       return data.map((e) => HighlightModel.fromJson(e)).toList();
     } catch (error) {
-      throw Exception('Error fetching highlights: $error');
+      throw Exception('Error fetching highlights');
     }
   }
 

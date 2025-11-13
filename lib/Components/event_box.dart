@@ -64,9 +64,13 @@ class _EventCardState extends State<EventCard> {
       case 'bootcamp':
         return Colors.deepPurple;
       case 'ideathon':
-        return Colors.lightBlueAccent;
+        // return Colors.lightBlueAccent;
+        return Colors.black;
       case 'robotics':
         return Colors.deepPurpleAccent;
+
+      case 'showcase':
+        return Colors.black;
 
       // Non-Technical Events (Warm Colors)
       case 'talent show':
@@ -77,8 +81,8 @@ class _EventCardState extends State<EventCard> {
         return const Color.fromARGB(255, 241, 21, 116);
       case 'treasure hunt':
         return Colors.deepOrange;
-      case 'gd': // Group Discussion
-        return Colors.brown;
+      case 'event': // Group Discussion
+        return Colors.black;
       case 'sports':
         return Colors.deepOrangeAccent;
       case 'law':

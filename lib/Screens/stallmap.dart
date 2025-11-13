@@ -48,11 +48,11 @@ class StallMapScreen extends StatelessWidget {
       backgroundColor: const Color(0xFF0E0E0E),
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text("Event Map",
+        title: Text("Buisness Bazaar Stall Map",
             style: GoogleFonts.recursive(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 26,
+              fontSize: 23,
             )),
         centerTitle: true,
       ),
@@ -285,7 +285,7 @@ void _showStallDetails(BuildContext context, int number) {
             ElevatedButton.icon(
               onPressed: () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurpleAccent,
+                backgroundColor: Colors.redAccent,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
                 minimumSize: const Size(double.infinity, 48),

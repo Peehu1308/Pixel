@@ -87,9 +87,9 @@ class _HobbiesState extends State<Hobbies> {
         );
       }
     } catch (e) {
-      print("Error details: $e");
+      // print("Error details: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error saving Hobbiess: $e")),
+        SnackBar(content: Text("Error saving Hobbiess")),
       );
     }
   }
