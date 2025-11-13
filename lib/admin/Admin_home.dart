@@ -122,6 +122,7 @@ class _AdminHomeState extends State<AdminHome> {
                   description: event['Description'],
                   type: event['Type'],
                   time: event['Time'],
+                  venue: event['Venue'],
                 );
               }).toList(),
             ),
@@ -140,7 +141,8 @@ class _AdminHomeState extends State<AdminHome> {
                       widget.email),
                   description: hackathon['Description'],
                   type: hackathon['Type'],
-                  time:hackathon['Time']
+                  time:hackathon['Time'],
+                  venue: hackathon['Venue'],
                 );
               }).toList(),
             ),

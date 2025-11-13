@@ -9,6 +9,7 @@ import 'package:pixel/Screens/club.dart';
 import 'package:pixel/Screens/event.dart';
 import 'package:pixel/Screens/friends_screen.dart';
 import 'package:pixel/Screens/login.dart';
+import 'package:pixel/Screens/stallmap.dart';
 import 'package:pixel/Splash_Screen.dart';
 import 'package:pixel/admin/Admin_home.dart';
 import 'package:pixel/admin/add_highlight.dart';
@@ -69,6 +70,8 @@ class _MyAppState extends State<MyApp> {
       home: _amplifyConfigured
           // ? SplashScreen()
           ?LoginScreen()
+          // ?InteractiveStallMap()
+          // ?StallMapScreen()
           // ?AddingFrames(email: "E23CSEU2289@bennett.edu.in")
           // ? AdminHome(email: "E23CSEU2289@bennett.edu.in")
           // ? Clubs_Screen(email: 'S24CSEU0489@bennett.edu.in')

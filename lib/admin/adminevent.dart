@@ -92,13 +92,13 @@ class _AdmineventState extends State<Adminevent> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
           "Pixel",
-          style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
+          style: GoogleFonts.recursive(color: Colors.white, fontSize: 30),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 20),
@@ -179,7 +179,7 @@ class _AdmineventState extends State<Adminevent> {
                       child: Text(
                         "Updates",
                         style: GoogleFonts.recursive(
-                            fontSize: 30, color: Colors.black),
+                            fontSize: 30, color: Colors.white),
                       ),
                     ),
                   ),

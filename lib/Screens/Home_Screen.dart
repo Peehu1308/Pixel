@@ -119,7 +119,7 @@ class _Home_ScreenState extends State<Home_Screen> {
           return Align(
             alignment: Alignment.topLeft,
             child: Material(
-              color: Colors.white,
+              color: Colors.black,
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(20),
                 bottomRight: Radius.circular(20),
@@ -148,7 +148,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                       child: Text(
                         'Menu',
                         style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 24),
                       ),
@@ -237,7 +237,7 @@ class _Home_ScreenState extends State<Home_Screen> {
         //   borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         // ),
         // isScrollControlled: true,
-        // backgroundColor: Colors.white,
+        // backgroundColor: Colors.black,
         //   builder: (context) {
         //     return FractionallySizedBox(
         //       widthFactor:0.5,
@@ -308,13 +308,13 @@ class _Home_ScreenState extends State<Home_Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
           "Pixel",
-          style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
+          style: GoogleFonts.recursive(color: Colors.white, fontSize: 30),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         actions: [
           // Container(
           //   margin: const EdgeInsets.only(right: 20),
@@ -354,7 +354,7 @@ class _Home_ScreenState extends State<Home_Screen> {
             //   margin: const EdgeInsets.all(10),
             //   decoration: BoxDecoration(
             //     color: Colors.grey[200],
-            //     border: Border.all(color: Colors.black, width: 1),
+            //     border: Border.all(color: Colors.white, width: 1),
             //     borderRadius: BorderRadius.circular(20),
             //   ),
             //   child: TextField(
@@ -390,7 +390,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                   child: Align(
                     alignment: Alignment.topLeft,
@@ -401,33 +401,33 @@ class _Home_ScreenState extends State<Home_Screen> {
                           // Text(
                           //   "Discover Amazing Events",
                           //   style: GoogleFonts.recursive(
-                          //       fontSize: 21, color: Colors.white),
+                          //       fontSize: 21, color: Colors.black),
                           // ),
                           Text("Pitch bold, ideate big, and build your venture buzz — Bennovate 2025 is where ideas ignite and startups take flight!",
                               style: GoogleFonts.recursive(
-                                  fontSize: 14, color: Colors.white)),
+                                  fontSize: 14, color: Colors.black)),
 
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               
-                               ElevatedButton(onPressed: (){
-                                  Navigator.push(context,MaterialPageRoute(builder: (_)=>Event_Screen(email: widget.email)));
-                                }, child: Text("Explore Events",style: GoogleFonts.recursive(fontSize:12,color: Colors.black)),
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(horizontal: 11, vertical:3),
-                                  backgroundColor: Colors.white,
-                                  minimumSize: Size(8, 8),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
+                              //  ElevatedButton(onPressed: (){
+                              //     Navigator.push(context,MaterialPageRoute(builder: (_)=>Event_Screen(email: widget.email)));
+                              //   }, child: Text("Explore Events",style: GoogleFonts.recursive(fontSize:12,color: Colors.white)),
+                              //   style: ElevatedButton.styleFrom(
+                              //     padding: const EdgeInsets.symmetric(horizontal: 11, vertical:3),
+                              //     backgroundColor: Colors.black,
+                              //     minimumSize: Size(8, 8),
+                              //     shape: RoundedRectangleBorder(
+                              //       borderRadius: BorderRadius.circular(30),
+                              //     ),
                                   
-                                ),
-                                ),
+                              //   ),
+                              //   ),
                               
                               //  ElevatedButton(onPressed: (){
                               //     Navigator.push(context,MaterialPageRoute(builder: (_)=>Event_Screen(email: widget.email)));
-                              //   }, child: Text("Explore Events",style: GoogleFonts.recursive(fontSize:8,color: Colors.white)),
+                              //   }, child: Text("Explore Events",style: GoogleFonts.recursive(fontSize:8,color: Colors.black)),
                               //   style: ElevatedButton.styleFrom(
                               //     padding: const EdgeInsets.symmetric(horizontal: 4, vertical:1),
                               //     backgroundColor: Colors.grey,
@@ -441,7 +441,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                               // ),
                               // ElevatedButton(onPressed: (){
                               //     Navigator.push(context,MaterialPageRoute(builder: (_)=>Event_Screen(email: widget.email)));
-                              //   }, child: Text("Explore Events",style: GoogleFonts.recursive(fontSize:8,color: Colors.white)),
+                              //   }, child: Text("Explore Events",style: GoogleFonts.recursive(fontSize:8,color: Colors.black)),
                               //   style: ElevatedButton.styleFrom(
                               //     padding: const EdgeInsets.symmetric(horizontal: 4, vertical:1),
                               //     backgroundColor: Colors.grey,
@@ -455,7 +455,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                               // ),
                               // ElevatedButton(onPressed: (){
                               //     Navigator.push(context,MaterialPageRoute(builder: (_)=>Event_Screen(email: widget.email)));
-                              //   }, child: Text("Explore Events",style: GoogleFonts.recursive(fontSize:8,color: Colors.white)),
+                              //   }, child: Text("Explore Events",style: GoogleFonts.recursive(fontSize:8,color: Colors.black)),
                               //   style: ElevatedButton.styleFrom(
                               //     padding: const EdgeInsets.symmetric(horizontal: 4, vertical:1),
                               //     backgroundColor: Colors.grey,
@@ -490,6 +490,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                   description: event['Description'],
                   type: event['Type'],
                   time: event['Time'],
+                  venue: event['Venue'],
                 );
               }).toList(),
             ),
@@ -507,6 +508,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                   description: hackathon['Description'],
                   type: hackathon['Type'],
                   time: hackathon['Time'],
+                  venue: hackathon['Venue'],
                 );
               }).toList(),
             ),
@@ -523,7 +525,7 @@ class _Home_ScreenState extends State<Home_Screen> {
         padding: const EdgeInsets.only(left:10.0),
         child: Text(
           title,
-          style: GoogleFonts.recursive(fontSize: 19, color: Colors.black),
+          style: GoogleFonts.recursive(fontSize: 19, color: Colors.white),
         ),
       ),
     );

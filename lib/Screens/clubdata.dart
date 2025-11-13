@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pixel/Components/chatbox_club.dart';
 import 'package:pixel/Components/eventsbox_small.dart';
 import 'package:pixel/Screens/showcase_box.dart';
-// import 'package:pixel/Components/eventsbox_small.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ClubData extends StatefulWidget {
@@ -34,50 +33,21 @@ class _ClubDataState extends State<ClubData> {
   void initState() {
     super.initState();
     fetchMembers();
-    // fetchliveevents();
   }
-
-// Future<void> fetchliveevents() async {
-//   try {
-//     final data = await Supabase.instance.client
-//         .from('Projects')
-
-//         .select(
-//           'project_title, project_description, club_id'
-//         )
-//         .eq('club_id', int.parse(widget.clubId)); // ✅ ensures correct filter type
-
-//     print('Fetched projects for club ${widget.clubId}: $data');
-//     print('Projects response: $data');
-// print('Project count: ${data.length}');
-
-
-//     if (data.isEmpty) {
-//       print('No projects found for this club.');
-//     } else {
-//       setState(() {
-//         project = data;
-//       });
-//     }
-//   } catch (error, stack) {
-//     print('Error fetching projects: $error');
-//     print(stack);
-//   }
-// }
 
   Future<void> fetchMembers() async {
     final response = await Supabase.instance.client
         .from('Club_members')
-        .select('members')
+        .select('members, Image, Position, Description, club_id')
         .eq('club_id', widget.clubId);
+
+    print('Raw Supabase response: $response');
 
     if (response.isNotEmpty) {
       setState(() {
-        members = response[0]['members'] ?? [];
+        members = response;
       });
     }
-    print('DEBUG ClubData.clubId type = ${widget.clubId.runtimeType}');
-
   }
 
   @override
@@ -164,42 +134,100 @@ class _ClubDataState extends State<ClubData> {
 
                 /// Floating buttons on image
                 Positioned(
-                  bottom: 20,
-                  left: 0,
-                  right: 0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          side: const BorderSide(color: Colors.white, width: 2),
-                        ),
-                        child: const Text(
-                          "Join Club",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => ChatBoxClub(
-                                        clubname: widget.clubName,
-                                        image: widget.imageUrl,
-                                      )));
-                        },
-                        child: const Text(
-                          "Join Chat",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ],
-                  ),
+  bottom: 20,
+  left: 0,
+  right: 0,
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      // -------------------- JOIN CLUB BUTTON --------------------
+      ElevatedButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext dialogContext) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
+                title: const Text(
+                  "Coming Soon",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                content: const Text(
+                  "Club joining forms will open soon! Stay tuned for updates.",
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(dialogContext); // Close modal
+                    },
+                    child: const Text(
+                      "OK",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.black,
+          side: const BorderSide(color: Colors.white, width: 2),
+        ),
+        child: const Text(
+          "Join Club",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+
+      const SizedBox(width: 20),
+
+      // -------------------- JOIN CHAT BUTTON --------------------
+      ElevatedButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext dialogContext) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                title: const Text(
+                  "Feature Coming Soon",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                content: const Text(
+                  "Chat feature coming soon! To access chat, please download the app.",
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(dialogContext); // Close modal
+                    },
+                    child: const Text(
+                      "OK",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+        ),
+        child: const Text(
+          "Join Chat",
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
+    ],
+  ),
+)
+
               ],
             ),
 
@@ -228,9 +256,7 @@ class _ClubDataState extends State<ClubData> {
               children: options.map((text) => Text(text)).toList(),
             ),
 
-            SizedBox(
-              height: 20,
-            ),
+            // const SizedBox(height: 10),
 
             if (selectedIndex == 0) ...[
               Column(
@@ -238,7 +264,7 @@ class _ClubDataState extends State<ClubData> {
                   members.isEmpty
                       ? const Center(
                           child: Text(
-                            "No Active Users",
+                            "No Active Members",
                             style: TextStyle(color: Colors.white),
                           ),
                         )
@@ -249,27 +275,184 @@ class _ClubDataState extends State<ClubData> {
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: members.length,
                             itemBuilder: (context, index) {
-                              final member = members[index].toString().trim();
+                              final member = members[index];
+                              final memberName = member['members'] ?? '';
+                              final imageUrl = member['Image'] ?? '';
+                              final position = member['Position'] ?? '';
+                              final description = member['Description'] ?? '';
+
                               return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[800],
-                                    borderRadius: BorderRadius.circular(3),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 2,
-                                    horizontal: 7,
-                                  ),
-                                  alignment: Alignment.centerLeft,
-                                  height: 40,
-                                  width: 20,
-                                  child: Text(
-                                    member,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 6, horizontal: 12),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Dialog(
+                                          backgroundColor:
+                                              const Color(0xFF121212),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          child: LayoutBuilder(
+                                            builder: (context, constraints) {
+                                              final isWide =
+                                                  constraints.maxWidth > 500;
+                                              return Container(
+                                                width: isWide
+                                                    ? 500
+                                                    : MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.9,
+                                                padding:
+                                                    const EdgeInsets.all(20),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    CircleAvatar(
+                                                      radius: isWide ? 50 : 40,
+                                                      backgroundImage: (imageUrl !=
+                                                                  null &&
+                                                              imageUrl
+                                                                  .isNotEmpty)
+                                                          ? NetworkImage(
+                                                              imageUrl)
+                                                          : const AssetImage(
+                                                                  "assets/pixel.png")
+                                                              as ImageProvider,
+                                                    ),
+                                                    const SizedBox(height: 15),
+                                                    Text(
+                                                      memberName,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 8),
+                                                    Text(
+                                                      position,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: const TextStyle(
+                                                        color: Colors.white70,
+                                                        fontSize: 15,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 16),
+                                                    Text(
+                                                      description.isNotEmpty
+                                                          ? description
+                                                          : "No description available.",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: const TextStyle(
+                                                        color: Colors.white60,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 20),
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.bottomRight,
+                                                      child: TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                        style: TextButton
+                                                            .styleFrom(
+                                                          foregroundColor:
+                                                              Colors.white,
+                                                        ),
+                                                        child:
+                                                            const Text("Close"),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 250),
+                                    curve: Curves.easeInOut,
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 14),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF1A1A1A),
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(color: Colors.white10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.6),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: Colors.white24,
+                                                width: 1.5),
+                                          ),
+                                          child: CircleAvatar(
+                                            radius: 25,
+                                            backgroundImage:
+                                                (imageUrl != null &&
+                                                        imageUrl.isNotEmpty)
+                                                    ? NetworkImage(imageUrl)
+                                                    : const AssetImage(
+                                                            "assets/pixel.png")
+                                                        as ImageProvider,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 14),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                memberName,
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w600,
+                                                  letterSpacing: 0.3,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 3),
+                                              Text(
+                                                position,
+                                                style: const TextStyle(
+                                                  color: Colors.white70,
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const Icon(Icons.info_outline,
+                                            color: Colors.white38),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -282,21 +465,16 @@ class _ClubDataState extends State<ClubData> {
             ] else if (selectedIndex == 1) ...[
               Column(
                 children: [
-
                   Column(
-        children: [
-          
-            // EventsboxSmall(clubId: int.parse(widget.clubId))
-            ShowcaseBox(clubId:widget.clubId)
-        ],
-      )
-
+                    children: [
+                      ShowcaseBox(clubId: widget.clubId),
+                    ],
+                  )
                 ],
               )
             ] else if (selectedIndex == 2) ...[
               Column(
                 children: [
-                  
                   const Center(
                     child: Text(
                       "No past events",

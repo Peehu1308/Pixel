@@ -58,13 +58,13 @@ class _Clubs_ScreenState extends State<Clubs_Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       appBar: AppBar(
           title: Text(
             "Pixel",
-            style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
+            style: GoogleFonts.recursive(color: Colors.white, fontSize: 30),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.black,
           actions: [
             // Container(
             //   margin: const EdgeInsets.only(right: 20),
@@ -110,7 +110,7 @@ class _Clubs_ScreenState extends State<Clubs_Screen> {
                   fontSize: 26,
                   fontWeight: FontWeight.w400,
                   fontStyle: FontStyle.italic,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
               ),
             ),
