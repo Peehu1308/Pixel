@@ -1,148 +1,267 @@
-# Pixel
-A personalized campus platform to discover events, opportunities, and teammates
+# Pixel 🚀
 
-# 🚀 Overview
+**Pixel** is a personalized, campus-first discovery and collaboration platform designed to help students stay informed, connected, and opportunity-ready. It centralizes events, hackathons, club activities, and collaboration opportunities into one intelligent hub tailored to each student.
 
-Pixel is a campus-focused platform built to solve a common student problem:
-missing out on events, opportunities, and the right people to collaborate with.
+---
 
-Pixel brings together everything happening within a university ecosystem—events, hackathons, club activities, and collaborations—into one centralized, personalized experience.
+## 📌 Table of Contents
 
-# 🌟 Features
-# 📢 Centralized Event & Opportunity Feed
+* [Overview](#overview)
+* [Problem Statement](#problem-statement)
+* [Solution](#solution)
+* [Key Features](#key-features)
+* [Product Scope](#product-scope)
+* [Tech Stack](#tech-stack)
+* [System Architecture](#system-architecture)
+* [Deployment](#deployment)
+* [Costing & Infrastructure Estimate](#costing--infrastructure-estimate)
+* [Roadmap](#roadmap)
+* [Security & Privacy](#security--privacy)
+* [Target Users](#target-users)
+* [Business Model (Planned)](#business-model-planned)
+* [Status](#status)
+* [Contributing](#contributing)
 
-Discover:
+---
 
-Campus events
+## 🧠 Overview
 
-Hackathons
+Students often miss out on valuable campus opportunities because information is scattered across emails, WhatsApp groups, notice boards, and social media. Pixel solves this by acting as a **single source of truth for campus life**, delivering personalized and relevant updates directly to students.
 
-Workshops
+Pixel is built with a startup-first mindset: scalable, modular, and ready to evolve into a full campus ecosystem platform.
 
-Competitions
+---
 
-Club activities
+## ❗ Problem Statement
 
-Eliminates scattered updates across emails and group chats.
+Students commonly face:
 
-# 🎯 Personalized Recommendations
+* Missed events and deadlines due to fragmented communication
+* Difficulty finding the right teammates for hackathons and projects
+* Information overload with low relevance
+* Lack of a structured campus-wide discovery platform
 
-Events and opportunities suggested based on:
+---
 
-Interests
+## ✅ Solution
 
-Skills
+Pixel provides:
 
-Tech stack
+* A **centralized feed** of campus events and opportunities
+* **Personalized recommendations** based on interests and skills
+* A **collaboration and teammate-matching system**
+* Event tracking, reminders, and deadline management
 
-Past interactions
+All within a clean, campus-centric interface.
 
-Ensures users see relevant content, not noise.
+---
 
-# 👥 Teammate & Collaboration Finder
+## 🌟 Key Features
 
-Find teammates for:
+### 📢 Centralized Event & Opportunity Feed
 
-Hackathons
+* Campus events
+* Hackathons
+* Workshops & competitions
+* Club activities
 
-Projects
+> Eliminates dependency on scattered communication channels.
 
-Competitions
+### 🎯 Personalized Recommendations
 
-Match with people based on:
+Recommendations based on:
 
-Skills
+* User interests
+* Skill set & tech stack
+* Past interactions
 
-Interests
+> Reduces noise and increases relevance.
 
-Availability
+### 👥 Teammate & Collaboration Finder
 
-Makes collaboration faster and more efficient.
+* Find teammates for hackathons, projects, and competitions
+* Matching based on skills, interests, and availability
 
-# 📅 Event Tracking & Reminders
+### 📅 Event Tracking & Reminders
 
-Save events and opportunities
+* Save events
+* Track deadlines
+* Reminder notifications (planned)
 
-Track deadlines and important dates
+### 🏫 Campus-Centric Design
 
-Never miss registrations or submissions.
+* Built specifically for universities
+* Supports students, clubs, faculty, and organizers
 
-# 🏫 Campus-Centric Design
+### 🧭 Clean & Intuitive UI
 
-Built specifically for university ecosystems
+* Minimal and modern design
+* Easy navigation across events, teams, and profiles
 
-Useful for:
+---
 
-Students
+## 📦 Product Scope
 
-Clubs
+**In Scope (Current / MVP):**
 
-Faculty
+* User authentication
+* Event listing & discovery
+* Personalized feed logic (basic)
+* Profile creation
+* Early access web deployment
 
-Event organizers
+**Out of Scope (Planned):**
 
-Keeps everything structured and campus-relevant.
+* Advanced AI-driven recommendations
+* In-app chat
+* Admin dashboards for colleges
+* Analytics for organizers
 
-# 🧭 Clean & Intuitive UI
+---
 
-Minimal, modern interface
+## 🛠 Tech Stack
 
-Easy navigation across events, teams, and profiles
+### 📱 Frontend
 
-Designed for clarity and usability.
+* **Flutter** – Cross-platform mobile development
+* Responsive UI for Android & iOS
 
-# 🧠 Problem Pixel Solves
+### 🔐 Backend & Database
 
-Students often:
+* **Supabase**
 
-Miss opportunities due to scattered information
+  * Authentication (Email / OAuth)
+  * PostgreSQL database
+  * Row-Level Security (RLS)
+  * Real-time subscriptions
 
-Struggle to find teammates
+### ☁️ Cloud & Infrastructure
 
-Feel overwhelmed by irrelevant notifications
+* **AWS**
 
-Pixel solves this by acting as a single, intelligent hub for campus life.
+  * Media storage (S3)
+  * Scalable backend services
 
-# 🛠 Tech Stack
-📱 Frontend
+### 🚀 Deployment
 
-Flutter
+* **Vercel** – Early access web deployment
 
-Cross-platform mobile development
+---
 
-Clean and responsive UI
+## 🧱 System Architecture
 
-Smooth user experience on Android and iOS
+```
+Flutter App / Web
+        |
+        v
+Supabase Auth & API Layer
+        |
+        v
+PostgreSQL Database
+        |
+        v
+AWS (Media & Infrastructure)
+```
 
-🔐 Backend & Database
+---
 
-Supabase
+## 💰 Costing & Infrastructure Estimate (Monthly)
 
-Authentication (Email / OAuth)
+> *Early-stage / MVP-level estimates*
 
-PostgreSQL database
+### 🗄 Backend (Supabase)
 
-Real-time data handling
+* Free tier (initial users): ₹0
+* Pro tier (scaling): ~₹2,000 – ₹3,000
 
-Secure row-level access control
+### ☁️ AWS
 
-☁️ Cloud & Infrastructure
+* S3 Storage (media assets): ₹500 – ₹1,000
+* Misc services (logs, bandwidth): ₹500
 
-AWS
+### 🌐 Deployment (Vercel)
 
-Media storage (e.g., images, assets)
+* Hobby / Free tier: ₹0
+* Pro (if needed): ~₹1,500
 
-Scalable backend services
+### 📊 Total Estimated Monthly Cost
 
-Reliable cloud infrastructure
+**₹2,000 – ₹6,000** (depending on scale)
 
-🚀 Deployment
+---
 
-Early Access Web Version deployed on Vercel
+## 🗺 Roadmap
 
-🌐 Early Access
+### Phase 1 – MVP (Current)
 
-🚧 Early access version is live:
-https://pixelweb-alpha.vercel.app/
+* Core discovery platform
+* Early access web version
 
-This version is under active development. Features and UI may evolve based on feedback.
+### Phase 2 – Mobile App
+
+* Full Flutter mobile app
+* Push notifications
+
+### Phase 3 – Intelligence Layer
+
+* AI-based recommendations
+* Smart teammate matching
+
+### Phase 4 – Campus Partnerships
+
+* Admin dashboards for colleges
+* Verified events & analytics
+
+---
+
+## 🔐 Security & Privacy
+
+* Secure authentication via Supabase
+* Row-Level Security for data isolation
+* Minimal data collection
+* Privacy-first design approach
+
+---
+
+## 🎓 Target Users
+
+* University students
+* College clubs & societies
+* Hackathon organizers
+* Faculty & student coordinators
+
+---
+
+## 💼 Business Model (Planned)
+
+* Freemium for students
+* Subscription for colleges & organizers
+* Sponsored events & featured listings
+* Campus analytics dashboards
+
+---
+
+## 🚧 Status
+
+* 🧪 Early Access
+* Actively under development
+* UI and features evolving based on feedback
+
+🌐 **Live Demo:** [https://pixelweb-alpha.vercel.app/](https://pixelweb-alpha.vercel.app/)
+
+---
+
+## 🤝 Contributing
+
+Contributions, feedback, and ideas are welcome.
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit changes
+4. Open a pull request
+
+---
+
+## 📄 License
+
+This project is currently under a **proprietary / early-stage license**. Licensing details will be finalized as the product evolves.
