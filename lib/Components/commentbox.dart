@@ -168,7 +168,7 @@ class _CommentboxState extends State<Commentbox> {
                                 IconButton(
                                   onPressed: () {
                                     Share.share(
-                                      'Check out this comment by ${comment.username}:\n${comment.comment}\n${comment.imageUrl ?? ""}\nShared via Pixel app.',
+                                      'Check out this comment by ${comment.username}:\n${comment.comment}\n${comment.imageUrl ?? ""}\nShared via Eventra app.',
                                     );
                                   },
                                   icon: const Icon(Icons.share,
