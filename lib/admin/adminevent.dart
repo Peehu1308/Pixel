@@ -95,7 +95,7 @@ class _AdmineventState extends State<Adminevent> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          "Pixel",
+          "Eventra",
           style: GoogleFonts.recursive(color: Colors.white, fontSize: 30),
         ),
         backgroundColor: Colors.black,
