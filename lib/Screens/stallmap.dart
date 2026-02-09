@@ -56,38 +56,41 @@ class StallMapScreen extends StatelessWidget {
             )),
         centerTitle: true,
       ),
-      body: Center(
-        child: InteractiveViewer(
-          minScale: 0.7,
-          maxScale: 2.0,
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // 🔝 Top parallel row (46–50)
-                _buildParallelRow(context, topParallel),
-
-                const SizedBox(height: 14),
-
-                // 🛣️ Road and perpendicular stalls
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    _buildVerticalColumn(context, leftColumn),
-                    const SizedBox(width: 6),
-                    _buildHorizontalRoad(),
-                    const SizedBox(width: 6),
-                    _buildVerticalColumn(context, rightColumn),
-                  ],
-                ),
-
-                const SizedBox(height: 14),
-
-                // ⬇️ Bottom parallel row (21–25)
-                _buildParallelRow(context, bottomParallel),
-              ],
+      body: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Center(
+          child: InteractiveViewer(
+            minScale: 0.7,
+            maxScale: 2.0,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // 🔝 Top parallel row (46–50)
+                  _buildParallelRow(context, topParallel),
+        
+                  const SizedBox(height: 14),
+        
+                  // 🛣️ Road and perpendicular stalls
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      _buildVerticalColumn(context, leftColumn),
+                      const SizedBox(width: 6),
+                      _buildHorizontalRoad(),
+                      const SizedBox(width: 6),
+                      _buildVerticalColumn(context, rightColumn),
+                    ],
+                  ),
+        
+                  const SizedBox(height: 14),
+        
+                  // ⬇️ Bottom parallel row (21–25)
+                  _buildParallelRow(context, bottomParallel),
+                ],
+              ),
             ),
           ),
         ),
