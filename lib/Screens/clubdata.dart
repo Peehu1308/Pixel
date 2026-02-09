@@ -348,17 +348,17 @@ class _ClubDataState extends State<ClubData> {
                                                       ),
                                                     ),
                                                     const SizedBox(height: 16),
-                                                    Text(
-                                                      description.isNotEmpty
-                                                          ? description
-                                                          : "No description available.",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: const TextStyle(
-                                                        color: Colors.white60,
-                                                        fontSize: 14,
-                                                      ),
-                                                    ),
+                                                    // Text(
+                                                    //   description.isNotEmpty
+                                                    //       ? description
+                                                    //       : "No description available.",
+                                                    //   textAlign:
+                                                    //       TextAlign.center,
+                                                    //   style: const TextStyle(
+                                                    //     color: Colors.white60,
+                                                    //     fontSize: 14,
+                                                    //   ),
+                                                    // ),
                                                     const SizedBox(height: 20),
                                                     Align(
                                                       alignment:
