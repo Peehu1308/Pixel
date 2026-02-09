@@ -61,7 +61,7 @@ class _Admin_FriendsScreenState extends State<Admin_FriendsScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          "Pixel",
+          "Eventra",
           style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
         ),
         backgroundColor: Colors.white,
