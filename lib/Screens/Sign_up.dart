@@ -86,7 +86,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                     // Branding
                     Text(
-                      "Pixel",
+                      "Eventra",
                       style: GoogleFonts.recursive(
                         fontSize: 52,
                         fontWeight: FontWeight.bold,
