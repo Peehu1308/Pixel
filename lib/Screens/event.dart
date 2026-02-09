@@ -91,7 +91,7 @@ class _Event_ScreenState extends State<Event_Screen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          "Pixel",
+          "Eventra",
           style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
         ),
         
