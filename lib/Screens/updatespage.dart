@@ -95,38 +95,38 @@ class _Updates_ScreenState extends State<Updates_Screen> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          "Pixel",
+          "Eventra",
           style: GoogleFonts.recursive(color: Colors.white, fontSize: 30),
         ),
         backgroundColor: Colors.black,
         actions: [
-          // Container(
-          //   margin: const EdgeInsets.only(right: 20),
-          //   child: GestureDetector(
-          //     onTap: () {
-          //       if (widget.email.isNotEmpty) {
-          //         Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //               builder: (context) => Profile(email: widget.email)),
-          //         );
-          //       } else {
-          //         ScaffoldMessenger.of(context).showSnackBar(
-          //           const SnackBar(
-          //               content:
-          //                   Text("You need to be logged in to view profile")),
-          //         );
-          //       }
-          //     },
-          //     child: CircleAvatar(
-          //       radius: 20,
-          //       backgroundImage: profileImage.isNotEmpty
-          //           ? NetworkImage(profileImage)
-          //           : const AssetImage("lib/assets/profile.jpeg")
-          //               as ImageProvider,
-          //     ),
-          //   ),
-          // )
+          Container(
+            margin: const EdgeInsets.only(right: 20),
+            child: GestureDetector(
+              onTap: () {
+                if (widget.email.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Profile(email: widget.email)),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content:
+                            Text("You need to be logged in to view profile")),
+                  );
+                }
+              },
+              child: CircleAvatar(
+                radius: 20,
+                backgroundImage: profileImage.isNotEmpty
+                    ? NetworkImage(profileImage)
+                    : const AssetImage("lib/assets/profile.jpeg")
+                        as ImageProvider,
+              ),
+            ),
+          )
         ],
         automaticallyImplyLeading: false,
       ),
