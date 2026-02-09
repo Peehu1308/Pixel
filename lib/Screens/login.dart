@@ -428,7 +428,7 @@ Future<void> handleEarlyAccessLogin() async {
   @override
   Widget build(BuildContext context) {
     final currentDate = DateTime.now();
-    final releaseDate = DateTime(2025, 11, 20);
+    final releaseDate = DateTime(2026, 3, 30);
     final isEarlyAccess = currentDate.isBefore(releaseDate);
 
     return Scaffold(
@@ -445,7 +445,7 @@ Future<void> handleEarlyAccessLogin() async {
                   children: [
                     const SizedBox(height: 40),
                     Text(
-                      "Pixel",
+                      "Eventra",
                       style: GoogleFonts.recursive(
                         fontSize: 52,
                         fontWeight: FontWeight.bold,
