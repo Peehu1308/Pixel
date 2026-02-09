@@ -108,7 +108,7 @@ class _PreferenceState extends State<Preference> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Pixel",
+          "Eventra",
           style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
         ),
         backgroundColor: Colors.transparent,
