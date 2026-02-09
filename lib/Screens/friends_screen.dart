@@ -56,97 +56,97 @@ class _FriendsScreenState extends State<FriendsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentDate = DateTime.now();
-    final releaseDate = DateTime(2025, 11, 20);
+    // final currentDate = DateTime.now();
+    // final releaseDate = DateTime(2025, 11, 20);
 
-    // ---- SHOW COMING SOON PAGE IF BEFORE RELEASE ----
-    if (currentDate.isBefore(releaseDate)) {
-      return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text(
-            "Pixel",
-            style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
-          automaticallyImplyLeading: false,
-        ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Excited to see what your friends are up to?",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.recursive(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  "Download Pixel — Coming Soon!",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.recursive(
-                    fontSize: 20,
-                    color: Colors.grey[700],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        bottomNavigationBar: Navbar(
-          currentIndex: 1,
-          onTap: (index) {},
-          email: widget.email,
-        ),
-      );
-    }
+    // // ---- SHOW COMING SOON PAGE IF BEFORE RELEASE ----
+    // if (currentDate.isBefore(releaseDate)) {
+    //   return Scaffold(
+    //     backgroundColor: Colors.white,
+    //     appBar: AppBar(
+    //       title: Text(
+    //         "Pixel",
+    //         style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
+    //       ),
+    //       backgroundColor: Colors.white,
+    //       elevation: 0,
+    //       automaticallyImplyLeading: false,
+    //     ),
+    //     body: Center(
+    //       child: Padding(
+    //         padding: const EdgeInsets.all(24.0),
+    //         child: Column(
+    //           mainAxisAlignment: MainAxisAlignment.center,
+    //           children: [
+    //             Text(
+    //               "Excited to see what your friends are up to?",
+    //               textAlign: TextAlign.center,
+    //               style: GoogleFonts.recursive(
+    //                 fontSize: 26,
+    //                 fontWeight: FontWeight.bold,
+    //                 color: Colors.black,
+    //               ),
+    //             ),
+    //             const SizedBox(height: 20),
+    //             Text(
+    //               "Download Pixel — Coming Soon!",
+    //               textAlign: TextAlign.center,
+    //               style: GoogleFonts.recursive(
+    //                 fontSize: 20,
+    //                 color: Colors.grey[700],
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //     bottomNavigationBar: Navbar(
+    //       currentIndex: 1,
+    //       onTap: (index) {},
+    //       email: widget.email,
+    //     ),
+    //   );
+    // }
 
-    // ---- NORMAL PAGE AFTER RELEASE ----
+    // // ---- NORMAL PAGE AFTER RELEASE ----
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          "Pixel",
+          "Eventra",
           style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
-          // Container(
-          //   margin: const EdgeInsets.only(right: 20),
-          //   child: GestureDetector(
-          //     onTap: () {
-          //       if (widget.email.isNotEmpty) {
-          //         Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //             builder: (context) => Profile(email: widget.email),
-          //           ),
-          //         );
-          //       } else {
-          //         ScaffoldMessenger.of(context).showSnackBar(
-          //           const SnackBar(
-          //               content:
-          //                   Text("You need to be logged in to view profile")),
-          //         );
-          //       }
-          //     },
-          //     child: CircleAvatar(
-          //       radius: 20,
-          //       backgroundImage: profileImage.isNotEmpty
-          //           ? NetworkImage(profileImage)
-          //           : const AssetImage("lib/assets/profile.jpeg")
-          //               as ImageProvider,
-          //     ),
-          //   ),
-          // )
+          Container(
+            margin: const EdgeInsets.only(right: 20),
+            child: GestureDetector(
+              onTap: () {
+                if (widget.email.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Profile(email: widget.email),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content:
+                            Text("You need to be logged in to view profile")),
+                  );
+                }
+              },
+              child: CircleAvatar(
+                radius: 20,
+                backgroundImage: profileImage.isNotEmpty
+                    ? NetworkImage(profileImage)
+                    : const AssetImage("lib/assets/profile.jpeg")
+                        as ImageProvider,
+              ),
+            ),
+          )
         
         ],
         automaticallyImplyLeading: false,
