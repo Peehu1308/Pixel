@@ -95,7 +95,7 @@ class _AdminHomeState extends State<AdminHome> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Pixel",
+        title: Text("Eventra",
             style: GoogleFonts.recursive(color: Colors.black, fontSize: 30)),
         backgroundColor: Colors.white,
         actions: [
