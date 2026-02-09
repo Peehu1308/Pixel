@@ -1,3 +1,4 @@
+import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
@@ -68,16 +69,48 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: _amplifyConfigured
-          // ? SplashScreen()
-          ?LoginScreen()
-          // ?InteractiveStallMap()
-          // ?StallMapScreen()
-          // ?AddingFrames(email: "E23CSEU2289@bennett.edu.in")
-          // ? AdminHome(email: "E23CSEU2289@bennett.edu.in")
-          // ? Clubs_Screen(email: 'S24CSEU0489@bennett.edu.in')
-          // ? Clubs_Screen(email: 'E23CSEU2289@bennett.edu.in')
-          : Scaffold(body: Center(child: CircularProgressIndicator())),
+          ? DeviceCheck(mobileHome: const LoginScreen())
+          // ?LoginScreen()
+          : const Scaffold(body: Center(child: CircularProgressIndicator())),
     );
+  }
+}
+
+class DeviceCheck extends StatelessWidget {
+  final Widget mobileHome;
+  const DeviceCheck({required this.mobileHome, super.key});
+
+  bool _isMobile() {
+    final userAgent = html.window.navigator.userAgent.toLowerCase();
+    return userAgent.contains('android') ||
+        userAgent.contains('iphone') ||
+        userAgent.contains('ipad') ||
+        userAgent.contains('ipod');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isMobile()) {
+      return mobileHome;
+    } else {
+      return const Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.mobile_off, size: 80, color: Colors.grey),
+              SizedBox(height: 20),
+              Text(
+                '⚠️ This app is available only on mobile devices.\nOpen the link on your mobile devices',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18, color: Colors.black54),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 }
 
