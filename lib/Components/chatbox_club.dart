@@ -76,10 +76,10 @@ class _ChatBoxClubState extends State<ChatBoxClub> {
                     padding: EdgeInsets.all(12),
                     children: [
                       _botMessage(
-                          " Meet Pixel — your all-in-one event companion!From discovering the hottest hackathons to finding your perfect teammate with built-in AI, Pixel does it all.Post quick updates with Frames, share bites like tweets via Specs, and stay in the loop on everything that matters.Events. Teams. Updates. All in one place. That’s Pixel. ✨"),
+                          " Meet Eventra — your all-in-one event companion!From discovering the hottest hackathons to finding your perfect teammate with built-in AI, Eventra does it all.Post quick updates with Frames, share bites like tweets via Specs, and stay in the loop on everything that matters.Events. Teams. Updates. All in one place. That’s Eventra. ✨"),
                       _userMessage("Tell me More"),
                       _botMessage(
-                          "Pixel is your smart social toolkit for everything related to events, hackathons, and building connections. It’s not just another event app — it’s a creative space powered by AI, helping you discover, connect, and express."),
+                          "Eventra is your smart social toolkit for everything related to events, hackathons, and building connections. It’s not just another event app — it’s a creative space powered by AI, helping you discover, connect, and express."),
                       SizedBox(height: 8),
                       Wrap(
                         spacing: 10,
