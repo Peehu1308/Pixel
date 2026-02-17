@@ -69,8 +69,9 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: _amplifyConfigured
-          ? DeviceCheck(mobileHome: const LoginScreen())
+          // ? DeviceCheck(mobileHome: const LoginScreen())
           // ?LoginScreen()
+          ? SplashScreen()
           : const Scaffold(body: Center(child: CircularProgressIndicator())),
     );
   }
