@@ -36,7 +36,8 @@ class _FriendsScreenState extends State<FriendsScreen> {
       List<dynamic> data = response as List<dynamic>;
       return data.map((e) => FramesModel.fromJson(e)).toList();
     } catch (error) {
-      throw Exception('Error fetching frames: $error');
+      throw Exception('Error fetching frames');
+      // throw Exception('Error fetching frames: $error');
     }
   }
 
@@ -56,60 +57,59 @@ class _FriendsScreenState extends State<FriendsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final currentDate = DateTime.now();
-    // final releaseDate = DateTime(2025, 11, 20);
+    final currentDate = DateTime.now();
+    final releaseDate = DateTime(2026, 02, 10);
 
-    // // ---- SHOW COMING SOON PAGE IF BEFORE RELEASE ----
-    // if (currentDate.isBefore(releaseDate)) {
-    //   return Scaffold(
-    //     backgroundColor: Colors.white,
-    //     appBar: AppBar(
-    //       title: Text(
-    //         "Pixel",
-    //         style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
-    //       ),
-    //       backgroundColor: Colors.white,
-    //       elevation: 0,
-    //       automaticallyImplyLeading: false,
-    //     ),
-    //     body: Center(
-    //       child: Padding(
-    //         padding: const EdgeInsets.all(24.0),
-    //         child: Column(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           children: [
-    //             Text(
-    //               "Excited to see what your friends are up to?",
-    //               textAlign: TextAlign.center,
-    //               style: GoogleFonts.recursive(
-    //                 fontSize: 26,
-    //                 fontWeight: FontWeight.bold,
-    //                 color: Colors.black,
-    //               ),
-    //             ),
-    //             const SizedBox(height: 20),
-    //             Text(
-    //               "Download Pixel — Coming Soon!",
-    //               textAlign: TextAlign.center,
-    //               style: GoogleFonts.recursive(
-    //                 fontSize: 20,
-    //                 color: Colors.grey[700],
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //     bottomNavigationBar: Navbar(
-    //       currentIndex: 1,
-    //       onTap: (index) {},
-    //       email: widget.email,
-    //     ),
-    //   );
-    // }
-
-    // // ---- NORMAL PAGE AFTER RELEASE ----
-    return Scaffold(
+    // ---- SHOW COMING SOON PAGE IF BEFORE RELEASE ----
+    if (currentDate.isBefore(releaseDate)) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text(
+            "Pixel",
+            style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
+          ),
+          backgroundColor: Colors.white,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Excited to see what your friends are up to?",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.recursive(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  "Download Pixel — Coming Soon!",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.recursive(
+                    fontSize: 20,
+                    color: Colors.grey[700],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        bottomNavigationBar: Navbar(
+          currentIndex: 1,
+          onTap: (index) {},
+          email: widget.email,
+        ),
+      );
+    }
+    else{
+      return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
@@ -167,7 +167,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return const Center(child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
-                          return Center(child: Text('Error: ${snapshot.error}'));
+                          // return Center(child: Text('Error: ${snapshot.error}'));
                         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                           return const Center(child: Text('No frames found.'));
                         }
@@ -236,5 +236,8 @@ class _FriendsScreenState extends State<FriendsScreen> {
         email: widget.email,
       ),
     );
+    }
+
+    // // ---- NORMAL PAGE AFTER RELEASE 
   }
 }
