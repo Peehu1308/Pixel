@@ -73,6 +73,7 @@ class Description_Screen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
+        iconTheme: IconThemeData(color:Colors.white),
         title: Text(
           "Eventra",
           style: GoogleFonts.recursive(color: Colors.white, fontSize: 30),
