@@ -41,7 +41,7 @@ class _ClubDataState extends State<ClubData> {
         .select('members, Image, Position, Description, club_id')
         .eq('club_id', widget.clubId);
 
-    print('Raw Supabase response: $response');
+    // print('Raw Supabase response: $response');
 
     if (response.isNotEmpty) {
       setState(() {
