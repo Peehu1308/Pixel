@@ -82,7 +82,7 @@ class Description_Screen extends StatelessWidget {
       ),
 
       // ✅ Only show the floating location button when title is NOT "Ideathon"
-      floatingActionButton: title.toLowerCase() != "ideathon"
+      floatingActionButton: title.toLowerCase() == "ideathon"
           ? FloatingActionButton(
               backgroundColor: Colors.redAccent,
               tooltip: "View Stall Map",
