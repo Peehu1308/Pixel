@@ -12,6 +12,7 @@ class EventDetailScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text(event['Name'] ?? 'Event Details',style: TextStyle(color: Colors.white),),
         backgroundColor: Colors.black,
         
@@ -46,8 +47,8 @@ class EventDetailScreen extends StatelessWidget {
                 event['Description'] ?? 'No description provided.',
                 style: const TextStyle(color: Colors.white),
               ),
-              Text("Projects",style: TextStyle(color: Colors.white,fontSize: 30),),
-              EventsboxSmall(clubId: clubId),
+              // Text("Projects",style: TextStyle(color: Colors.white,fontSize: 30),),
+              // EventsboxSmall(clubId: clubId),
               
             ],
           ),
