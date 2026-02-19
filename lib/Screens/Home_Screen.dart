@@ -316,33 +316,33 @@ class _Home_ScreenState extends State<Home_Screen> {
         ),
         backgroundColor: Colors.black,
         actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 20),
-            child: GestureDetector(
-              onTap: () {
-                if (widget.email.isNotEmpty) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Profile(email: widget.email)),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content:
-                            Text("You need to be logged in to view profile")),
-                  );
-                }
-              },
-              child: CircleAvatar(
-                radius: 20,
-                backgroundImage: profileImage.isNotEmpty
-                    ? NetworkImage(profileImage)
-                    : const AssetImage("lib/assets/profile.jpeg")
-                        as ImageProvider,
-              ),
-            ),
-          )
+          // Container(
+          //   margin: const EdgeInsets.only(right: 20),
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       if (widget.email.isNotEmpty) {
+          //         Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //               builder: (context) => Profile(email: widget.email)),
+          //         );
+          //       } else {
+          //         ScaffoldMessenger.of(context).showSnackBar(
+          //           const SnackBar(
+          //               content:
+          //                   Text("You need to be logged in to view profile")),
+          //         );
+          //       }
+          //     },
+          //     child: CircleAvatar(
+          //       radius: 20,
+          //       backgroundImage: profileImage.isNotEmpty
+          //           ? NetworkImage(profileImage)
+          //           : const AssetImage("lib/assets/profile.jpeg")
+          //               as ImageProvider,
+          //     ),
+          //   ),
+          // )
         
         ],
         automaticallyImplyLeading: false,
@@ -382,6 +382,7 @@ class _Home_ScreenState extends State<Home_Screen> {
             //     ),
             //   ),
             // ),
+            
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: SizedBox(
@@ -403,7 +404,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                           //   style: GoogleFonts.recursive(
                           //       fontSize: 21, color: Colors.black),
                           // ),
-                          Text("Pitch bold, ideate big, and build your venture buzz — Bennovate 2025 is where ideas ignite and startups take flight!",
+                          Text("Sportikon 4.0 – Igniting campus spirit with passion, power, and play.”",
                               style: GoogleFonts.recursive(
                                   fontSize: 14, color: Colors.black)),
 
@@ -480,21 +481,21 @@ class _Home_ScreenState extends State<Home_Screen> {
             EventscrollView(
               Events.map((event) {
                 return EventCard(
-                  title: event['Name'],
-                  clubName: event['Club_name'],
-                  date: event['Date'],
+                  title: event['Name']?.toString() ?? '',
+                  clubName: event['Club_name']?.toString() ?? '',
+                  date: event['Date']?.toString() ?? '',
                   imageUrl: event['Image'] ?? "",
                   email: widget.email,
                   onRegister: () => toggleRegister(
                       'Events', event['id'].toString(), widget.email),
-                  description: event['Description'],
-                  type: event['Type'],
-                  time: event['Time'],
-                  venue: event['Venue'],
+                  description: event['Description']?.toString() ?? '',
+                  type: event['Type']?.toString() ?? '',
+                  time: event['Time']?.toString() ?? '',
+                  venue: event['Venue']?.toString() ?? '',
                 );
               }).toList(),
             ),
-            sectionTitle("Upcoming Technical Events"),
+            // sectionTitle("Upcoming Technical Events"),
             EventscrollView(
               Hackathons.map((hackathon) {
                 return EventCard(
