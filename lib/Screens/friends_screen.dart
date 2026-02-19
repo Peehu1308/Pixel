@@ -58,7 +58,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
   @override
   Widget build(BuildContext context) {
     final currentDate = DateTime.now();
-    final releaseDate = DateTime(2026, 02, 10);
+    final releaseDate = DateTime(2026, 03, 10);
 
     // ---- SHOW COMING SOON PAGE IF BEFORE RELEASE ----
     if (currentDate.isBefore(releaseDate)) {
@@ -66,7 +66,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
-            "Pixel",
+            "Eventra",
             style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
           ),
           backgroundColor: Colors.white,
@@ -90,7 +90,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  "Download Pixel — Coming Soon!",
+                  "Download Eventra — Coming Soon!",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.recursive(
                     fontSize: 20,
