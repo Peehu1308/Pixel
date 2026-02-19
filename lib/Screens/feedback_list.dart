@@ -91,7 +91,7 @@ class _Feedback_ListState extends State<Feedback_List> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          "Pixel",
+          "Eventra",
           style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
         ),
         backgroundColor: Colors.white,
