@@ -428,7 +428,7 @@ Future<void> handleEarlyAccessLogin() async {
   @override
   Widget build(BuildContext context) {
     final currentDate = DateTime.now();
-    final releaseDate = DateTime(2026, 2, 10);
+    final releaseDate = DateTime(2026, 3, 10);
     final isEarlyAccess = currentDate.isBefore(releaseDate);
 
     return Scaffold(
@@ -455,7 +455,7 @@ Future<void> handleEarlyAccessLogin() async {
                     const SizedBox(height: 8),
                     Text(
                       isEarlyAccess
-                          ? "Early Access — Enter Bennett Email"
+                          ? "Early Access — Enter Your Email"
                           : "Login to your account",
                       style: GoogleFonts.poppins(
                         fontSize: 18,
@@ -467,7 +467,7 @@ Future<void> handleEarlyAccessLogin() async {
                     // Early access: Enrollment input only
                     if (isEarlyAccess)
                       _buildInputField(
-                          enrollmentController, "Bennett Email", Icons.badge)
+                          enrollmentController, "Email", Icons.badge)
                     else ...[
                       _buildInputField(
                           emailController, "Bennett Email", Icons.email),
