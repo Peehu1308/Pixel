@@ -428,7 +428,7 @@ Future<void> handleEarlyAccessLogin() async {
   @override
   Widget build(BuildContext context) {
     final currentDate = DateTime.now();
-    final releaseDate = DateTime(2026, 3, 10);
+    final releaseDate = DateTime(2026, 7, 10);
     final isEarlyAccess = currentDate.isBefore(releaseDate);
 
     return Scaffold(
