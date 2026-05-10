@@ -79,7 +79,7 @@ class _Updates_ScreenState extends State<Updates_Screen> {
       List<dynamic> data = response as List<dynamic>;
       return data.map((e) => HighlightModel.fromJson(e)).toList();
     } catch (error) {
-      throw Exception('Error fetching highlights: $error');
+      throw Exception('Error fetching highlights');
     }
   }
 
@@ -92,13 +92,13 @@ class _Updates_ScreenState extends State<Updates_Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          "Pixel",
-          style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
+          "Eventra",
+          style: GoogleFonts.recursive(color: Colors.white, fontSize: 30),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         actions: [
           // Container(
           //   margin: const EdgeInsets.only(right: 20),
@@ -127,6 +127,7 @@ class _Updates_ScreenState extends State<Updates_Screen> {
           //     ),
           //   ),
           // )
+        
         ],
         automaticallyImplyLeading: false,
       ),
@@ -180,7 +181,7 @@ class _Updates_ScreenState extends State<Updates_Screen> {
                       child: Text(
                         "Updates",
                         style: GoogleFonts.recursive(
-                            fontSize: 30, color: Colors.black),
+                            fontSize: 30, color: Colors.white),
                       ),
                     ),
                   ),

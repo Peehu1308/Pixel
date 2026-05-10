@@ -23,24 +23,29 @@ class _ShowcaseBoxState extends State<ShowcaseBox> {
   }
 
   Future<void> fetchEvents() async {
-    try {
-      final response = await Supabase.instance.client
-          .from('Events')
-          .select()
-          .eq('club_id',widget.clubId)
-          .order('Date', ascending: false);
+  try {
+    final response = await Supabase.instance.client
+        .from('Events')
+        .select()
+        .eq('club_id', widget.clubId)
+        .order('Date', ascending: false);
 
-      setState(() {
-        events = response;
-        isLoading = false;
-      });
-    } catch (e) {
-      print('Error fetching events: $e');
-      setState(() => isLoading = false);
-    }
-    print('DEBUG ShowcaseBox.clubId type = ${widget.clubId.runtimeType}');
+    // ✅ Filter out Business Bazaar
+    final filtered = response.where((e) =>
+        (e['Name']?.toString().toLowerCase() ?? '') !=
+        'business bazaar'.toLowerCase()).toList();
 
+    setState(() {
+      events = filtered;
+      isLoading = false;
+    });
+  } catch (e) {
+    print('Error fetching events');
+    setState(() => isLoading = false);
   }
+  print('DEBUG ShowcaseBox.clubId type = ${widget.clubId.runtimeType}');
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +109,7 @@ class _ShowcaseBoxState extends State<ShowcaseBox> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => EventDetailScreen(event: events[0], clubId: widget.clubId,),
+                        builder: (_) => EventDetailScreen(event: events[1], clubId: widget.clubId,),
                       ),
                     );
                   },

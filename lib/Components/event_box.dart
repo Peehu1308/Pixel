@@ -12,6 +12,7 @@ class EventCard extends StatefulWidget {
   final String description;
   final String type;
   final String time;
+  final String venue;
 
   const EventCard({
     super.key,
@@ -24,6 +25,7 @@ class EventCard extends StatefulWidget {
     required this.description,
     required this.type,
     required this.time,
+    required this.venue,
   });
 
   @override
@@ -50,7 +52,6 @@ class _EventCardState extends State<EventCard> {
       case 'workshop':
         return Colors.green;
       case 'hackathon':
-  
         return Colors.blueGrey;
       case 'tech talk':
         return Colors.lightBlue;
@@ -63,9 +64,13 @@ class _EventCardState extends State<EventCard> {
       case 'bootcamp':
         return Colors.deepPurple;
       case 'ideathon':
-        return Colors.lightBlueAccent;
+        // return Colors.lightBlueAccent;
+        return Colors.black;
       case 'robotics':
         return Colors.deepPurpleAccent;
+
+      case 'showcase':
+        return Colors.black;
 
       // Non-Technical Events (Warm Colors)
       case 'talent show':
@@ -76,15 +81,14 @@ class _EventCardState extends State<EventCard> {
         return const Color.fromARGB(255, 241, 21, 116);
       case 'treasure hunt':
         return Colors.deepOrange;
-      case 'gd': // Group Discussion
-        return Colors.brown;
+      case 'event': // Group Discussion
+        return Colors.black;
       case 'sports':
         return Colors.deepOrangeAccent;
       case 'law':
         return Colors.amber;
       case 'poetry':
         return const Color.fromARGB(255, 234, 146, 74);
-        
 
       // Default fallback
       default:
@@ -106,13 +110,13 @@ class _EventCardState extends State<EventCard> {
                         imageUrl: widget.imageUrl,
                         description: widget.description,
                         // type: widget.type,
+                        venue: widget.venue,
                         email: widget.email,
                         time: widget.time,
-                        type:widget.type,
+                        type: widget.type,
                       )));
         },
         child: Container(
-          
           width: 250,
           margin: const EdgeInsets.symmetric(horizontal: 2),
           child: Card(
@@ -191,30 +195,30 @@ class _EventCardState extends State<EventCard> {
                   ),
                 ),
                 Padding(
-  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-  child: Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Text(
-        widget.clubName.toUpperCase(),
-        style: const TextStyle(
-          fontSize: 13,
-          color: Colors.grey,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-      // Text(
-      //   'Stop by!',
-      //   style: const TextStyle(
-      //     fontSize: 10,
-      //     color: Color.fromARGB(255, 245, 5, 5),
-      //     fontWeight: FontWeight.w900,
-      //   ),
-      // ),
-    ],
-  ),
-),
-
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        widget.clubName.toUpperCase(),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      // Text(
+                      //   'Stop by!',
+                      //   style: const TextStyle(
+                      //     fontSize: 10,
+                      //     color: Color.fromARGB(255, 245, 5, 5),
+                      //     fontWeight: FontWeight.w900,
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

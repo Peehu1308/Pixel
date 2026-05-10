@@ -23,7 +23,7 @@ class CommentModel {
   // Safely handle Username (null / encrypted / plain)
   final rawUsername = json['Username'] as String?;
   final safeUsername = crypto.safeDecrypt(rawUsername) ;
-  print("DEBUG Comment JSON: $json");
+  // print("DEBUG Comment JSON: $json");
 
   return CommentModel(
     username: safeUsername.isEmpty ? 'Anonymous' : safeUsername,

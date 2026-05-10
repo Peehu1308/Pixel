@@ -42,7 +42,7 @@ class _Choice_AdminState extends State<Choice_Admin> {
     return Scaffold(
       backgroundColor: Colors.white, // clean white background
       appBar:  AppBar(
-        title: Text("Pixel",
+        title: Text("Eventra",
             style: GoogleFonts.recursive(color: Colors.black, fontSize: 30)),
         backgroundColor: Colors.white,
         actions: [

@@ -62,7 +62,7 @@ class _Clubs_Screen_AdminState extends State<Clubs_Screen_Admin> {
       backgroundColor: Colors.white,
       appBar: AppBar(
           title: Text(
-            "Pixel",
+            "Eventra",
             style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
           ),
           backgroundColor: Colors.white,

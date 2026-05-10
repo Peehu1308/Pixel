@@ -42,7 +42,7 @@ class _AddingFramesState extends State<AddingFrames> {
         _username = cryto.decryptText(userResponse['Name']) ?? 'Anonymous';
       });
     } catch (e) {
-      print("❌ Failed to fetch user name: $e");
+      // print("❌ Failed to fetch user name: $e");
       setState(() {
         _username = 'Anonymous';
       });
@@ -72,10 +72,10 @@ class _AddingFramesState extends State<AddingFrames> {
     try {
       await supabase.storage.from('images').upload(path, _image!);
       final imageUrl = supabase.storage.from('images').getPublicUrl(path);
-      print("✅ Uploaded image url: $imageUrl");
+      // print("✅ Uploaded image url: $imageUrl");
       return imageUrl;
     } catch (e) {
-      print("❌ Upload failed: $e");
+      // print("❌ Upload failed: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Upload failed: $e")),
       );
@@ -133,9 +133,9 @@ class _AddingFramesState extends State<AddingFrames> {
         );
       }
     } catch (e) {
-      print("❌ Save failed: $e");
+      // print("❌ Save failed: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error saving frame: $e")),
+        SnackBar(content: Text("Error saving frame")),
       );
     } finally {
       setState(() {

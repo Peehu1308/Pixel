@@ -66,9 +66,9 @@ class _PersonalState extends State<Personal> {
             content: Text("Image uploaded and profile updated successfully")),
       );
     } catch (e) {
-      print("❌ Upload failed: $e");
+      print("❌ Upload failed");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Upload failed: $e")),
+        SnackBar(content: Text("Upload failed")),
       );
     }
   }

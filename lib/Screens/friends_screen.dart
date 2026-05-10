@@ -36,7 +36,8 @@ class _FriendsScreenState extends State<FriendsScreen> {
       List<dynamic> data = response as List<dynamic>;
       return data.map((e) => FramesModel.fromJson(e)).toList();
     } catch (error) {
-      throw Exception('Error fetching frames: $error');
+      throw Exception('Error fetching frames');
+      // throw Exception('Error fetching frames: $error');
     }
   }
 
@@ -57,7 +58,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
   @override
   Widget build(BuildContext context) {
     final currentDate = DateTime.now();
-    final releaseDate = DateTime(2025, 11, 20);
+    final releaseDate = DateTime(2026, 03, 10);
 
     // ---- SHOW COMING SOON PAGE IF BEFORE RELEASE ----
     if (currentDate.isBefore(releaseDate)) {
@@ -65,7 +66,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
-            "Pixel",
+            "Eventra",
             style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
           ),
           backgroundColor: Colors.white,
@@ -89,7 +90,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  "Download Pixel — Coming Soon!",
+                  "Download Eventra — Coming Soon!",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.recursive(
                     fontSize: 20,
@@ -107,46 +108,45 @@ class _FriendsScreenState extends State<FriendsScreen> {
         ),
       );
     }
-
-    // ---- NORMAL PAGE AFTER RELEASE ----
-    return Scaffold(
+    else{
+      return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          "Pixel",
+          "Eventra",
           style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
-          // Container(
-          //   margin: const EdgeInsets.only(right: 20),
-          //   child: GestureDetector(
-          //     onTap: () {
-          //       if (widget.email.isNotEmpty) {
-          //         Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //             builder: (context) => Profile(email: widget.email),
-          //           ),
-          //         );
-          //       } else {
-          //         ScaffoldMessenger.of(context).showSnackBar(
-          //           const SnackBar(
-          //               content:
-          //                   Text("You need to be logged in to view profile")),
-          //         );
-          //       }
-          //     },
-          //     child: CircleAvatar(
-          //       radius: 20,
-          //       backgroundImage: profileImage.isNotEmpty
-          //           ? NetworkImage(profileImage)
-          //           : const AssetImage("lib/assets/profile.jpeg")
-          //               as ImageProvider,
-          //     ),
-          //   ),
-          // )
+          Container(
+            margin: const EdgeInsets.only(right: 20),
+            child: GestureDetector(
+              onTap: () {
+                if (widget.email.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Profile(email: widget.email),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content:
+                            Text("You need to be logged in to view profile")),
+                  );
+                }
+              },
+              child: CircleAvatar(
+                radius: 20,
+                backgroundImage: profileImage.isNotEmpty
+                    ? NetworkImage(profileImage)
+                    : const AssetImage("lib/assets/profile.jpeg")
+                        as ImageProvider,
+              ),
+            ),
+          )
         
         ],
         automaticallyImplyLeading: false,
@@ -167,7 +167,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return const Center(child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
-                          return Center(child: Text('Error: ${snapshot.error}'));
+                          // return Center(child: Text('Error: ${snapshot.error}'));
                         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                           return const Center(child: Text('No frames found.'));
                         }
@@ -236,5 +236,8 @@ class _FriendsScreenState extends State<FriendsScreen> {
         email: widget.email,
       ),
     );
+    }
+
+    // // ---- NORMAL PAGE AFTER RELEASE 
   }
 }

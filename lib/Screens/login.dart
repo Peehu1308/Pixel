@@ -82,7 +82,7 @@
 //       );
 //     } catch (e) {
 //       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(content: Text("Unexpected error: $e")),
+//         SnackBar(content: Text("Unexpected error: ")),
 //       );
 //     } finally {
 //       setState(() => isLoading = false);
@@ -333,7 +333,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Unexpected error: $e")),
+        SnackBar(content: Text("Unexpected error: ")),
       );
     } finally {
       setState(() => isLoading = false);
@@ -341,20 +341,28 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   /// Simple early access login (before Nov 20, 2025)
-  Future<void> handleEarlyAccessLogin() async {
-    final enrollment = enrollmentController.text.trim();
+Future<void> handleEarlyAccessLogin() async {
+  final enrollment = enrollmentController.text.trim();
 
-    if (enrollment.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("⚠️ Please enter your enrollment number")),
-      );
-      return;
-    }
+  if (enrollment.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("⚠️ Please enter your enrollment number")),
+    );
+    return;
+  }
 
-    setState(() => isLoading = true);
+  setState(() => isLoading = true);
 
-    try {
-      // Store in Supabase (table: early_access)
+  try {
+    // Check if the email already exists in the Users table
+    final existingUser = await Supabase.instance.client
+        .from('Users')
+        .select('Email')
+        .eq('Email', enrollment)
+        .maybeSingle();
+
+    if (existingUser == null) {
+      // Insert only if not present
       await Supabase.instance.client.from('Users').insert({
         'Email': enrollment,
         'created_at': DateTime.now().toIso8601String(),
@@ -363,22 +371,28 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("✅ Enrollment saved! Welcome.")),
       );
-
-      if (!mounted) return;
-
-      // Navigate to main page
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => MainScreen(email: enrollment)),
-      );
-    } catch (e) {
+    } else {
+      // Allow entry if already exists
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error saving enrollment: $e")),
+        const SnackBar(content: Text("✅ Welcome back!")),
       );
-    } finally {
-      setState(() => isLoading = false);
     }
+
+    if (!mounted) return;
+
+    // Navigate to main page in both cases
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => MainScreen(email: enrollment)),
+    );
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Error saving enrollment: ")),
+    );
+  } finally {
+    setState(() => isLoading = false);
   }
+}
 
   @override
   void dispose() {
@@ -414,7 +428,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final currentDate = DateTime.now();
-    final releaseDate = DateTime(2025, 11, 20);
+    final releaseDate = DateTime(2026, 7, 10);
     final isEarlyAccess = currentDate.isBefore(releaseDate);
 
     return Scaffold(
@@ -431,7 +445,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     const SizedBox(height: 40),
                     Text(
-                      "Pixel",
+                      "Eventra",
                       style: GoogleFonts.recursive(
                         fontSize: 52,
                         fontWeight: FontWeight.bold,
@@ -441,7 +455,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 8),
                     Text(
                       isEarlyAccess
-                          ? "Early Access — Enter Bennett Email"
+                          ? "Early Access — Enter Your Email"
                           : "Login to your account",
                       style: GoogleFonts.poppins(
                         fontSize: 18,
@@ -453,7 +467,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     // Early access: Enrollment input only
                     if (isEarlyAccess)
                       _buildInputField(
-                          enrollmentController, "Bennett Email", Icons.badge)
+                          enrollmentController, "Email", Icons.badge)
                     else ...[
                       _buildInputField(
                           emailController, "Bennett Email", Icons.email),

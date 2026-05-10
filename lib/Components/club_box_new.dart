@@ -21,15 +21,17 @@ class ClubBoxNew extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ClubData(
-                clubName: clubname,
-                imageUrl: imageUrl, description_club:description,
-                clubId: clubId,
-              ),
-            ),
-          );
+  context,
+  MaterialPageRoute(
+    builder: (context) => ClubData(
+      clubName: clubname,
+      imageUrl: imageUrl,
+      description_club: description,
+      clubId: int.parse(clubId.toString()), // ✅ ensures it's int
+    ),
+  ),
+);
+
         },
         child: Material(
           color: Colors.white,

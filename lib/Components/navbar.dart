@@ -56,10 +56,10 @@ class Navbar extends StatelessWidget {
         
       },
       // backgroundColor: Colors.transparent,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       selectedItemColor: Colors.purple,
       // selectedItemColor: Colors.orange,
-      unselectedItemColor: Colors.black,
+      unselectedItemColor: Colors.white,
       showUnselectedLabels: true,
       type: BottomNavigationBarType.fixed,
       items: const[

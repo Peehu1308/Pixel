@@ -17,7 +17,7 @@ class _EventsboxSmallState extends State<EventsboxSmall> {
     try {
       final response = await Supabase.instance.client
           .from('Projects')
-          .select('project_title, project_description')
+          .select('id, project_title, project_description, Visited, Like')
           .eq('club_id', widget.clubId);
 
       if (response.isEmpty) {
@@ -25,8 +25,8 @@ class _EventsboxSmallState extends State<EventsboxSmall> {
       }
       return List<Map<String, dynamic>>.from(response);
     } catch (error, stack) {
-      print('❌ Error fetching projects: $error');
-      print(stack);
+      // print('❌ Error fetching projects: $error');
+      // print(stack);
       return [];
     }
   }
@@ -119,8 +119,7 @@ class _EventsboxSmallState extends State<EventsboxSmall> {
                           onPressed: () {
                             _showProjectDialog(
                               context,
-                              title: p['project_title'] ?? 'Untitled Event',
-                              description: p['project_description'] ?? '',
+                              project: p,
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -151,63 +150,77 @@ class _EventsboxSmallState extends State<EventsboxSmall> {
     );
   }
 
-  void _showProjectDialog(BuildContext context,
-      {required String title, required String description}) {
+  void _showProjectDialog(BuildContext context, {required Map<String, dynamic> project}) {
+    final title = project['project_title'] ?? 'Untitled Event';
+    final description = project['project_description'] ?? '';
+    final projectId = project['id'];
+
     showDialog(
       context: context,
       builder: (context) {
-        return Dialog(
-          backgroundColor: Colors.black,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.white24, width: 1),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
+        return SingleChildScrollView(
+          child: Dialog(
+            backgroundColor: Colors.black,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.white24, width: 1),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 15),
-                Text(
-                  description,
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.8),
-                    fontSize: 14,
-                    height: 1.4,
+                  const SizedBox(height: 15),
+                  Text(
+                    description,
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.8),
+                      fontSize: 14,
+                      height: 1.4,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 25),
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  alignment: WrapAlignment.center,
-                  children: [
-                    _dialogButton("I Visited the Stall", Icons.location_on),
-                    _dialogButton("I Liked the Project", Icons.favorite_border),
-                    _dialogButton("Recommend Improvements", Icons.lightbulb_outline),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text(
-                    "Close",
-                    style: TextStyle(color: Colors.white70),
+                  const SizedBox(height: 25),
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      _dialogButton(
+                        "I Visited the Stall",
+                        Icons.location_on,
+                        projectId,
+                        "Visited",
+                      ),
+                      _dialogButton(
+                        "I Liked the Project",
+                        Icons.favorite_border,
+                        projectId,
+                        "Like",
+                      ),
+                    ],
                   ),
-                )
-              ],
+                  const SizedBox(height: 10),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text(
+                      "Close",
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         );
@@ -215,19 +228,46 @@ class _EventsboxSmallState extends State<EventsboxSmall> {
     );
   }
 
-  Widget _dialogButton(String text, IconData icon) {
+  // ✅ Updated to handle toggle logic
+  Widget _dialogButton(String text, IconData icon, int projectId, String column) {
     return ElevatedButton.icon(
-      onPressed: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('$text selected!',style: TextStyle(color: Colors.white),),
-            backgroundColor: Colors.black,
-            behavior: SnackBarBehavior.floating,
-            margin: const EdgeInsets.all(16),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            duration: const Duration(seconds: 1),
-          ),
-        );
+      onPressed: () async {
+        try {
+          final response = await Supabase.instance.client
+              .from('Projects')
+              .select(column)
+              .eq('id', projectId)
+              .single();
+
+          int currentValue = (response[column] ?? 0) as int;
+
+          // 🔁 Toggle logic: +1 if even click, -1 if odd
+          // For user-specific tracking, ideally store user_id separately
+          final newValue = currentValue == 0 ? 1 : 0;
+          final adjustment = newValue == 1 ? currentValue + 1 : currentValue - 1;
+
+          await Supabase.instance.client
+              .from('Projects')
+              .update({column: adjustment})
+              .eq('id', projectId);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                '$text updated!',
+                style: const TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.black,
+              behavior: SnackBarBehavior.floating,
+              margin: const EdgeInsets.all(16),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+        } catch (e) {
+          print('❌ Error updating $column count: $e');
+        }
       },
       icon: Icon(icon, color: Colors.black),
       label: Text(

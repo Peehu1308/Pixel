@@ -32,7 +32,7 @@ class EventHome extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          "Pixel",
+          "Eventra",
           style: GoogleFonts.poppins(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w700),
         ),
         backgroundColor: Colors.transparent,

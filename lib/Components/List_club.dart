@@ -70,11 +70,11 @@ class Club_List extends StatelessWidget {
                       Expanded(
                         child: TextButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ChatBoxClub(clubname: clubName, image: imageUrl,)));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             ChatBoxClub(clubname: clubName, image: imageUrl,)));
                           },
                           style: TextButton.styleFrom(
                             backgroundColor: Colors.black,
@@ -114,6 +114,9 @@ class Club_List extends StatelessWidget {
                       ),
                     ],
                   ),
+
+
+
                 ],
               ),
             ),

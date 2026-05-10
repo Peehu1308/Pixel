@@ -87,9 +87,9 @@ class _HobbiesState extends State<Hobbies> {
         );
       }
     } catch (e) {
-      print("Error details: $e");
+      // print("Error details: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error saving Hobbiess: $e")),
+        SnackBar(content: Text("Error saving Hobbiess")),
       );
     }
   }
@@ -99,7 +99,7 @@ class _HobbiesState extends State<Hobbies> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Pixel",
+          "Eventra",
           style: GoogleFonts.recursive(color: Colors.black, fontSize: 30),
         ),
         backgroundColor: Colors.transparent,
